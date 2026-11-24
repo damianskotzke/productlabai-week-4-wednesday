@@ -1,0 +1,40 @@
+name: Fix
+description: Something does not work well today
+title: "Fix: "
+labels: ["fix"]
+body:
+  - type: textarea
+    id: current
+    attributes:
+      label: Current experience
+      description: The steps that you did, and what happened. Add a screenshot or the error from the browser console.
+      placeholder: |
+        1. Make a sticky note.
+        2. Resize it to its smallest size.
+        3. Type three sentences.
+
+        The text goes out of the note.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected experience
+      description: What must happen after the same steps?
+      placeholder: The text stays in the note.
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where
+      description: The folder or the files where the problem is, if you know.
+      placeholder: src/nodes/sticky-note/
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      value: |
+        - [ ] The steps above now give the expected result
+        - [ ] `pnpm check` passes
+        - [ ] The PR has a before and after screenshot

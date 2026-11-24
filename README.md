@@ -45,7 +45,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md). The short version:
 4. Run `pnpm check`.
 5. Open a pull request and ask one person for a review.
 
-There are more than 60 ideas in [docs/starter-issues.md](docs/starter-issues.md).
+There are more than 70 ideas in the [issues](https://github.com/damianskotzke/productlabai-week-4-wednesday/issues).
 
 ## Work with an AI agent
 
@@ -66,18 +66,10 @@ There is no login. Each person with the key can change the board, so do not put 
 
 ## Commands
 
-| Command                | What it does                                                   |
-| ---------------------- | -------------------------------------------------------------- |
-| `pnpm dev`             | Start the app                                                  |
-| `pnpm new:node <name>` | Make a new node type from the template                         |
-| `pnpm check`           | Lint, type check, tests and build. The CI runs the same        |
-| `pnpm test`            | Tests only                                                     |
-| `pnpm format`          | Format the code with Prettier                                  |
-| `pnpm db:reset`        | Teacher only: delete the board content and load the seed board |
-
-## For the teacher
-
-- Database schema: `supabase/migrations`. Apply it with `supabase link --project-ref <ref>` and `supabase db push`.
-- Start content: `supabase/seed-board.json`. Load it with `pnpm db:reset`.
-- Create the starter issues on GitHub: `node scripts/create-issues.mjs` (preview), then add `--yes`.
-- Before the lesson, protect `main` on GitHub: require a pull request, one approval, and the `check` status.
+| Command                | What it does                                            |
+| ---------------------- | ------------------------------------------------------- |
+| `pnpm dev`             | Start the app                                           |
+| `pnpm new:node <name>` | Make a new node type from the template                  |
+| `pnpm check`           | Lint, type check, tests and build. The CI runs the same |
+| `pnpm test`            | Tests only                                              |
+| `pnpm format`          | Format the code with Prettier                           |

@@ -29,3 +29,14 @@ dist-ssr
 .verification
 .playwright-mcp
 .claude/settings.local.json
+
+# Teacher only: these files stay on the teacher's computer
+scripts/create-issues.mjs
+scripts/db-reset.mjs
+scripts/invite-collaborators.mjs
+scripts/google-sheet-signup.gs
+docs/starter-issues.md
+docs/teacher.md
+
+# Vercel
+.vercel

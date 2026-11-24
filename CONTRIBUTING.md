@@ -28,9 +28,16 @@ Open the **Issues** tab on GitHub and choose one. There are three types:
 | `improve-node` | Improve a node of a different person              | One folder in `src/nodes/`               |
 | `main-ui`      | Change the top bar, the context bar or the canvas | `src/components/board/` or `src/canvas/` |
 
+Each issue has one of two types:
+
+- **New feature** (`feature`): it says the Problem, the Solution hypothesis, what is In scope and what is Out of scope. Stay in the scope. If you want more, open a new issue.
+- **Fix** (`fix`): it says the Current experience and the Expected experience. Do the steps first, so you see the problem with your own eyes.
+
+Each issue also says where the work is ("Where") and when it is done ("Done when").
+
 Write a comment on the issue: "I take this." Then all people know that it is yours. One person for each issue.
 
-No issue for your idea? Make one first, with the issue form.
+No issue for your idea? Make one first, with the **New feature** form or the **Fix** form.
 
 ## 2. Make a branch
 
@@ -167,11 +174,12 @@ Your node is now in the app of each person who pulls `main`. Well done.
 
 ## Help
 
-| Problem                                         | Try                                                                                            |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| "I committed on `main`"                         | `git switch -c feat/my-branch`, and tell the teacher                                           |
-| "I want to drop my local changes in one file"   | `git restore <file>`                                                                           |
-| "My node does not show"                         | The folder needs an `index.ts` with `export default defineNode(...)`. Restart `pnpm dev`       |
-| "The board shows _Unknown node_"                | A classmate merged a new node. Run `git pull origin main`                                      |
-| "`pnpm check` fails in a file that is not mine" | Run `git pull origin main`. If it still fails, tell the teacher                                |
-| "I do not see the board of the class"           | Your `.env.local` has no key, so the app is in mock mode. Add the key, then restart `pnpm dev` |
+| Problem                                         | Try                                                                                                                                                     |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "I committed on `main`"                         | `git switch -c feat/my-branch`, and tell the teacher                                                                                                    |
+| "I want to drop my local changes in one file"   | `git restore <file>`                                                                                                                                    |
+| "My node does not show"                         | The folder needs an `index.ts` with `export default defineNode(...)`. Restart `pnpm dev`                                                                |
+| "`git push` says permission denied"             | Accept the invitation to the repository first: look in your email, or open <https://github.com/damianskotzke/productlabai-week-4-wednesday/invitations> |
+| "The board shows _Unknown node_"                | A classmate merged a new node. Run `git pull origin main`                                                                                               |
+| "`pnpm check` fails in a file that is not mine" | Run `git pull origin main`. If it still fails, tell the teacher                                                                                         |
+| "I do not see the board of the class"           | Your `.env.local` has no key, so the app is in mock mode. Add the key, then restart `pnpm dev`                                                          |

@@ -1,0 +1,64 @@
+name: New feature
+description: A new node, an improvement of a node, or a change to the main UI
+title: ""
+labels: ["feature"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - New node
+        - Improve a node
+        - Main UI
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Who has the problem, and what can they not do today? Do not write the solution here.
+      placeholder: A team cannot show the state of a task on the board. All cards look the same.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solution hypothesis
+      description: What do you think will solve the problem? It is a hypothesis, so one or two sentences are sufficient.
+      placeholder: A card with a title and a status badge. A control in the context bar changes the status.
+    validations:
+      required: true
+  - type: textarea
+    id: in-scope
+    attributes:
+      label: In scope
+      description: The things that this issue includes. One line for each.
+      placeholder: |
+        - Editable title
+        - Three states with three badge colours
+    validations:
+      required: true
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of scope
+      description: The things that a person can expect, but that this issue does not include.
+      placeholder: |
+        - Assignees and dates
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where
+      description: The folder or the files that will change, if you know.
+      placeholder: src/nodes/kanban-card/
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      value: |
+        - [ ] It works on the board: create, edit, resize, reload
+        - [ ] `pnpm check` passes
+        - [ ] The PR has a screenshot

@@ -13,8 +13,7 @@
     "test:watch": "vitest",
     "format": "prettier --write .",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
-    "new:node": "node scripts/new-node.mjs",
-    "db:reset": "node scripts/db-reset.mjs"
+    "new:node": "node scripts/new-node.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",

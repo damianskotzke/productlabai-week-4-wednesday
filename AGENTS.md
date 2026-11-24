@@ -185,7 +185,7 @@ Change these files only when the issue is about the engine (for example: pen too
 - `src/lib/board-repository.ts` is the only file that talks to the tables. It has a Supabase version and a mock version. If you change one, change the other.
 - **Do not add a migration** unless the issue says so. A migration changes the database of the full class. Never edit a migration that is merged. Add a new file.
 - There is no authentication. Do not add login, and do not put secrets in the code. Only the publishable key is in `.env.local`.
-- Never run `pnpm db:reset` unless the user asks. It deletes the board content of all people.
+- Never delete the nodes of other people on the live board, by hand or with a script.
 
 ## Files that you must not change (unless the issue says so)
 

@@ -4,3 +4,4 @@ src/components/ui
 supabase/.temp
 supabase/seed-board.json
 .claude
+scripts/google-sheet-signup.gs
