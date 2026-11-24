@@ -1,0 +1,213 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/inter";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* Whiteboard tokens. Values are in :root below. */
+  --color-selection: var(--selection);
+  --color-edge: var(--edge);
+  --color-edge-dashed: var(--edge-dashed);
+  --color-note-yellow: var(--note-yellow);
+  --color-note-yellow-foreground: var(--note-yellow-foreground);
+  --color-note-yellow-border: var(--note-yellow-border);
+  --color-note-yellow-hover: var(--note-yellow-hover);
+  --color-note-yellow-edit: var(--note-yellow-edit);
+  --color-note-blue: var(--note-blue);
+  --color-note-blue-foreground: var(--note-blue-foreground);
+  --color-note-blue-border: var(--note-blue-border);
+  --color-note-blue-hover: var(--note-blue-hover);
+  --color-note-blue-edit: var(--note-blue-edit);
+  --color-note-purple: var(--note-purple);
+  --color-note-purple-foreground: var(--note-purple-foreground);
+  --color-note-purple-border: var(--note-purple-border);
+  --color-note-purple-hover: var(--note-purple-hover);
+  --color-note-purple-edit: var(--note-purple-edit);
+  --color-note-red: var(--note-red);
+  --color-note-red-foreground: var(--note-red-foreground);
+  --color-note-red-border: var(--note-red-border);
+  --color-note-red-hover: var(--note-red-hover);
+  --color-note-red-edit: var(--note-red-edit);
+  --color-tint-blue: var(--tint-blue);
+  --color-tint-blue-foreground: var(--tint-blue-foreground);
+  --color-tint-green: var(--tint-green);
+  --color-tint-green-foreground: var(--tint-green-foreground);
+  --color-reaction-green: var(--reaction-green);
+  --color-reaction-green-border: var(--reaction-green-border);
+  --color-reaction-yellow: var(--reaction-yellow);
+  --color-reaction-yellow-border: var(--reaction-yellow-border);
+  --color-reaction-red: var(--reaction-red);
+  --color-reaction-red-border: var(--reaction-red-border);
+  --shadow-bar: 0 2px 6px rgb(0 0 0 / 0.08), 0 0 2px rgb(0 0 0 / 0.02);
+  --shadow-note: 0 3px 9px rgb(0 0 0 / 0.08), 0 0 3px rgb(0 0 0 / 0.02);
+  --shadow-flat: 0 1px 1px rgb(0 0 0 / 0.06);
+  --font-heading: var(--font-sans);
+  --font-sans: "Inter Variable", system-ui, sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  /* Whiteboard tokens (from the Figma file) */
+  --selection: #050505;
+  --edge: #cbcbd8;
+  --edge-dashed: #b7b7ca;
+  --grid-dot: rgb(31 31 41 / 0.16);
+  --note-yellow: #fefbe0;
+  --note-yellow-foreground: #858269;
+  --note-yellow-border: #ece6c3;
+  --note-yellow-hover: #d3c88f;
+  --note-yellow-edit: #c4ad97;
+  --note-blue: #e0fafe;
+  --note-blue-foreground: #697485;
+  --note-blue-border: #d6e2ee;
+  --note-blue-hover: #8fb1d1;
+  --note-blue-edit: #5f8fbf;
+  --note-purple: #f1e0fe;
+  --note-purple-foreground: #7a6985;
+  --note-purple-border: #e2d6ee;
+  --note-purple-hover: #b8a0d2;
+  --note-purple-edit: #8a5fb6;
+  --note-red: #fee4e0;
+  --note-red-foreground: #857369;
+  --note-red-border: #eed6d2;
+  --note-red-hover: #d6a097;
+  --note-red-edit: #b64b34;
+  --tint-blue: #dfe9f7;
+  --tint-blue-foreground: #48658e;
+  --tint-green: #e2f7df;
+  --tint-green-foreground: #427236;
+  --reaction-green: #c1ecd0;
+  --reaction-green-border: #339f59;
+  --reaction-yellow: #fde17e;
+  --reaction-yellow-border: #eaa845;
+  --reaction-red: #e8a2a2;
+  --reaction-red-border: #9f3333;
+  --background: oklch(1 0 0);
+  --foreground: #1f1f29;
+  --card: oklch(1 0 0);
+  --card-foreground: #1f1f29;
+  --popover: oklch(1 0 0);
+  --popover-foreground: #1f1f29;
+  --primary: #1f1f29;
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: #f3f3f6;
+  --secondary-foreground: #1f1f29;
+  --muted: #f3f3f6;
+  --muted-foreground: #6b6b7b;
+  --accent: #f3f3f6;
+  --accent-foreground: #1f1f29;
+  --destructive: #b64b34;
+  --border: #e7e7ee;
+  --input: #e7e7ee;
+  --ring: #8fb1d1;
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* The board fills the window and does not scroll. */
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  overflow: hidden;
+  overscroll-behavior: none;
+}

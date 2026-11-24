@@ -1,0 +1,17 @@
+# The owner of a path gets a review request automatically for each PR that changes it.
+# Add yourself for your node folder in the same PR that adds the node:
+#
+#   /src/nodes/kanban-card/   @your-github-handle
+
+# Shared parts: the teacher reviews these.
+*                         @damianskotzke
+/src/canvas/              @damianskotzke
+/src/lib/                 @damianskotzke
+/supabase/                @damianskotzke
+/.github/                 @damianskotzke
+
+# Starter nodes
+/src/nodes/sticky-note/   @damianskotzke
+/src/nodes/card/          @damianskotzke
+/src/nodes/text/          @damianskotzke
+/src/nodes/image/         @damianskotzke

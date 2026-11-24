@@ -1,0 +1,6 @@
+dist
+pnpm-lock.yaml
+src/components/ui
+supabase/.temp
+supabase/seed-board.json
+.claude

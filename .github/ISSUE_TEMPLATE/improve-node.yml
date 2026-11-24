@@ -1,0 +1,26 @@
+name: Improve a node
+description: Make a node that exists better
+title: "Improve <node>: "
+labels: ["improve-node"]
+body:
+  - type: input
+    id: node
+    attributes:
+      label: Which node?
+      placeholder: sticky-note
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What must change?
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      value: |
+        - [ ] The change is only in `src/nodes/<node>/`
+        - [ ] Nodes that are on the board now still work
+        - [ ] `pnpm check` passes

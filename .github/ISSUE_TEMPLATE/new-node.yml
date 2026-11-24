@@ -1,0 +1,32 @@
+name: New node
+description: Propose a new node type for the board
+title: "New node: "
+labels: ["new-node"]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Node name (kebab-case)
+      placeholder: kanban-card
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What does the node show?
+      description: Two or three sentences. A sketch or a screenshot helps.
+    validations:
+      required: true
+  - type: textarea
+    id: data
+    attributes:
+      label: Which data does it save?
+      placeholder: "title (text), status (todo / doing / done)"
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      value: |
+        - [ ] The folder `src/nodes/<name>/` exists (made with `pnpm new:node`)
+        - [ ] The node works in the gallery and on the board
+        - [ ] `pnpm check` passes

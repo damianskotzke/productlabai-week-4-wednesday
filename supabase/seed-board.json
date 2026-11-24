@@ -1,0 +1,295 @@
+{
+  "title": "Redo: Community Portal",
+  "nodes": [
+    {
+      "id": "00000000-0000-4000-8000-000000000100",
+      "type": "sticky-note",
+      "x": 132,
+      "y": 374.5,
+      "width": 240,
+      "height": 240,
+      "z": 1,
+      "data": {
+        "text": "ETA on Thursday next week",
+        "color": "yellow"
+      },
+      "createdBy": "Seed"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000101",
+      "type": "sticky-note",
+      "x": 487.5,
+      "y": 208,
+      "width": 240,
+      "height": 240,
+      "z": 2,
+      "data": {
+        "text": "Takumi, HWM build the best in class community tool?",
+        "color": "blue",
+        "reactions": [
+          {
+            "kind": "thumbs-up",
+            "x": -0.04,
+            "y": 0.567,
+            "rotation": 14.65
+          },
+          {
+            "kind": "thumbs-up",
+            "x": 0.027,
+            "y": 0.645,
+            "rotation": -13.3
+          },
+          {
+            "kind": "thumbs-up",
+            "x": 0.294,
+            "y": 0.989,
+            "rotation": -13.3
+          },
+          {
+            "kind": "star",
+            "x": 0.994,
+            "y": 0.11,
+            "rotation": 23.12
+          }
+        ]
+      },
+      "createdBy": "Seed"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000102",
+      "type": "sticky-note",
+      "x": 534,
+      "y": 533.5,
+      "width": 360,
+      "height": 240,
+      "z": 3,
+      "data": {
+        "text": "-3% MAU caused by the summer vacation season. Unfortunately, we also noted a 2% churn this month...",
+        "color": "purple",
+        "reactions": [
+          {
+            "kind": "sad",
+            "x": -0.008,
+            "y": 0.135,
+            "rotation": 33.6
+          },
+          {
+            "kind": "sad",
+            "x": -0.022,
+            "y": 0.235,
+            "rotation": 7.61
+          }
+        ],
+        "tags": [
+          {
+            "text": "Data",
+            "x": 0.454,
+            "y": 1.002,
+            "rotation": 21.27
+          },
+          {
+            "text": "Growth",
+            "x": 0.511,
+            "y": 0.002,
+            "rotation": -14.33
+          }
+        ]
+      },
+      "createdBy": "Seed"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000103",
+      "type": "sticky-note",
+      "x": 816,
+      "y": 314.5,
+      "width": 360,
+      "height": 240,
+      "z": 4,
+      "data": {
+        "text": "I wonder about the quality metrics we set for this month. It does not fit.",
+        "color": "red"
+      },
+      "createdBy": "Seed"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000104",
+      "type": "sticky-note",
+      "x": 1580,
+      "y": 384,
+      "width": 240,
+      "height": 240,
+      "z": 5,
+      "data": {
+        "text": "User picks community group",
+        "color": "yellow"
+      },
+      "createdBy": "Seed"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000105",
+      "type": "card",
+      "x": 1964,
+      "y": 303,
+      "width": 240,
+      "height": 150,
+      "z": 6,
+      "data": {
+        "text": "Community group list",
+        "color": "white"
+      },
+      "createdBy": "Seed"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000106",
+      "type": "card",
+      "x": 1964,
+      "y": 511,
+      "width": 240,
+      "height": 150,
+      "z": 7,
+      "data": {
+        "text": "Community options",
+        "color": "blue",
+        "tags": [
+          {
+            "text": "Optional",
+            "x": 0.767,
+            "y": 0.975,
+            "rotation": -21.51
+          }
+        ]
+      },
+      "createdBy": "Seed"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000107",
+      "type": "card",
+      "x": 2292,
+      "y": 303,
+      "width": 240,
+      "height": 150,
+      "z": 8,
+      "data": {
+        "text": "Introduction\npost draft",
+        "color": "blue",
+        "tags": [
+          {
+            "text": "Optional",
+            "x": 0.306,
+            "y": 0.975,
+            "rotation": 9.23
+          }
+        ]
+      },
+      "createdBy": "Seed"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000108",
+      "type": "card",
+      "x": 2620,
+      "y": 303,
+      "width": 240,
+      "height": 150,
+      "z": 9,
+      "data": {
+        "text": "Community\ngroup feed",
+        "color": "white"
+      },
+      "createdBy": "Seed"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000109",
+      "type": "card",
+      "x": 2991,
+      "y": 136,
+      "width": 240,
+      "height": 150,
+      "z": 10,
+      "data": {
+        "text": "Community\nUser List",
+        "color": "white"
+      },
+      "createdBy": "Seed"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000110",
+      "type": "card",
+      "x": 2991,
+      "y": 343,
+      "width": 240,
+      "height": 150,
+      "z": 11,
+      "data": {
+        "text": "Community\nInvite Form",
+        "color": "green",
+        "tags": [
+          {
+            "text": "CR",
+            "x": 0.015,
+            "y": 0.9,
+            "rotation": -32.28
+          }
+        ]
+      },
+      "createdBy": "Seed"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000111",
+      "type": "card",
+      "x": 2991,
+      "y": 541,
+      "width": 240,
+      "height": 150,
+      "z": 12,
+      "data": {
+        "text": "Community Settings",
+        "color": "white"
+      },
+      "createdBy": "Seed"
+    }
+  ],
+  "edges": [
+    {
+      "id": "00000000-0000-4000-9000-000000000100",
+      "source": "00000000-0000-4000-8000-000000000104",
+      "target": "00000000-0000-4000-8000-000000000105",
+      "dashed": false
+    },
+    {
+      "id": "00000000-0000-4000-9000-000000000101",
+      "source": "00000000-0000-4000-8000-000000000105",
+      "target": "00000000-0000-4000-8000-000000000106",
+      "dashed": true
+    },
+    {
+      "id": "00000000-0000-4000-9000-000000000102",
+      "source": "00000000-0000-4000-8000-000000000105",
+      "target": "00000000-0000-4000-8000-000000000107",
+      "dashed": false
+    },
+    {
+      "id": "00000000-0000-4000-9000-000000000103",
+      "source": "00000000-0000-4000-8000-000000000107",
+      "target": "00000000-0000-4000-8000-000000000108",
+      "dashed": false
+    },
+    {
+      "id": "00000000-0000-4000-9000-000000000104",
+      "source": "00000000-0000-4000-8000-000000000108",
+      "target": "00000000-0000-4000-8000-000000000109",
+      "dashed": true
+    },
+    {
+      "id": "00000000-0000-4000-9000-000000000105",
+      "source": "00000000-0000-4000-8000-000000000108",
+      "target": "00000000-0000-4000-8000-000000000110",
+      "dashed": true
+    },
+    {
+      "id": "00000000-0000-4000-9000-000000000106",
+      "source": "00000000-0000-4000-8000-000000000108",
+      "target": "00000000-0000-4000-8000-000000000111",
+      "dashed": true
+    }
+  ]
+}
