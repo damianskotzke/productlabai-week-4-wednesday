@@ -30,7 +30,7 @@ import { TextPromptDialog } from "./text-prompt-dialog"
  * All other node types are in the "More nodes" menu, so the bar stays small
  * when the class adds many node types.
  */
-const PINNED_TOOLS = ["text", "sticky-note", "card", "image"]
+const PINNED_TOOLS = ["text", "sticky-note", "card", "image", "emoji-stamp"]
 
 const pinnedDefinitions = PINNED_TOOLS.flatMap((type) =>
   nodeDefinitions.filter((definition) => definition.type === type),
