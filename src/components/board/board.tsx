@@ -5,7 +5,7 @@ import { toWorld } from "@/canvas/geometry"
 import { SELECT_TOOL, useBoardStore } from "@/canvas/store"
 import { useBoardGestures } from "@/canvas/use-board-gestures"
 import { WorldLayer } from "@/canvas/world-layer"
-import cursorUrl from "@/assets/cursor.svg"
+import cursorUrl from "@/assets/devil-cursor.svg"
 import { uploadFile } from "@/lib/storage"
 import { useBoardSync } from "@/lib/use-board-sync"
 import { cn } from "@/lib/utils"
@@ -65,7 +65,7 @@ function Board() {
         "data-panning:cursor-grabbing! data-space:cursor-grab",
         creating && "cursor-crosshair",
       )}
-      style={creating ? undefined : { cursor: `url(${cursorUrl}) 12 10, default` }}
+      style={creating ? undefined : { cursor: `url("${cursorUrl}") 16 16, default` }}
     >
       <CanvasLayer />
       <WorldLayer />
