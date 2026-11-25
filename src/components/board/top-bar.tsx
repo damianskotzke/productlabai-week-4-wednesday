@@ -32,6 +32,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { presenceLabel, usePresence } from "@/lib/use-presence"
 import { Bar, BarButton, BarGroup, BarSeparator } from "./bar"
 import { NodeMenu } from "./node-menu"
+import { COOL_STICKER_TOOL, CoolStickerPicker } from "./cool-sticker-picker"
 import { TextPromptDialog } from "./text-prompt-dialog"
 
 /**
@@ -44,7 +45,12 @@ const PINNED_TOOLS = ["text", "sticky-note", "card", "image"]
 const pinnedDefinitions = PINNED_TOOLS.flatMap((type) =>
   nodeDefinitions.filter((definition) => definition.type === type),
 )
-const moreDefinitions = nodeDefinitions.filter((definition) => !PINNED_TOOLS.includes(definition.type))
+/** The node types that have their own picker in the bar, so they are not in "More nodes". */
+const OWN_PICKER_TOOLS = [COOL_STICKER_TOOL]
+
+const moreDefinitions = nodeDefinitions.filter(
+  (definition) => !PINNED_TOOLS.includes(definition.type) && !OWN_PICKER_TOOLS.includes(definition.type),
+)
 
 /** The theme is saved in this browser only. Each person picks their own theme. */
 const THEME_KEY = "whiteboard-theme"
@@ -158,6 +164,7 @@ function TopBar() {
               <Icon icon={definition.icon} />
             </BarButton>
           ))}
+          <CoolStickerPicker />
           {moreDefinitions.length > 0 && (
             <NodeMenu definitions={moreDefinitions} activeType={tool} onPick={setTool} />
           )}
