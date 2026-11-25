@@ -11,7 +11,7 @@ export default defineNode<FlowCardData>({
   author: "@damianskotzke",
   defaultSize: { width: 240, height: 150 },
   minSize: { width: 140, height: 80 },
-  defaultData: { text: "", color: "white" },
+  defaultData: { text: "", color: "white", subtitle: "" },
   component: FlowCardNode,
   toolbar: FlowCardToolbar,
   editOnCreate: true,

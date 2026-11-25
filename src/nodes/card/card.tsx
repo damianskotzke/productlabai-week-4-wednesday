@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { ColorPicker, type ColorOption } from "@/components/board/color-picker"
 import { EditableText } from "@/components/board/editable-text"
@@ -5,10 +6,11 @@ import { cn } from "@/lib/utils"
 import type { NodeProps } from "../define-node"
 
 export type FlowCardColor = "white" | "blue" | "green"
-export type FlowCardData = { text: string; color: FlowCardColor }
+/** `subtitle` is optional: cards that were saved before it existed do not have it. */
+export type FlowCardData = { text: string; color: FlowCardColor; subtitle?: string }
 
 const flowCardFaceVariants = cva(
-  "flex size-full items-center justify-center overflow-hidden rounded-lg border-3 border-background px-3 pt-3 pb-4",
+  "flex size-full flex-col items-center justify-center gap-1 overflow-hidden rounded-lg border-3 border-background px-3 pt-3 pb-4",
   {
     variants: {
       color: {
@@ -56,17 +58,56 @@ function FlowCardTitle({ className, ...props }: React.ComponentProps<typeof Edit
   )
 }
 
+function FlowCardSubtitle({ className, ...props }: React.ComponentProps<typeof EditableText>) {
+  return (
+    <EditableText
+      data-slot="flow-card-subtitle"
+      className={cn("text-center text-sm leading-5 opacity-70", className)}
+      {...props}
+    />
+  )
+}
+
 function FlowCardNode({ data, editing, updateData, stopEditing }: NodeProps<FlowCardData>) {
+  const faceRef = useRef<HTMLDivElement>(null)
+  const subtitle = data.subtitle ?? ""
+
+  // Both text fields take the focus when editing starts. Give it back to the title.
+  // This effect runs after the effects of the two fields.
+  useEffect(() => {
+    if (!editing) return
+    const title = faceRef.current?.querySelector<HTMLElement>('[data-slot="flow-card-title"]')
+    if (!title) return
+    title.focus()
+    const range = document.createRange()
+    range.selectNodeContents(title)
+    range.collapse(false)
+    window.getSelection()?.removeAllRanges()
+    window.getSelection()?.addRange(range)
+  }, [editing])
+
+  // Stop editing when the focus leaves the card, not when it moves from the title to the subtitle.
+  const onBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) stopEditing()
+  }
+
   return (
     <FlowCard>
-      <FlowCardFace color={data.color}>
+      <FlowCardFace ref={faceRef} color={data.color} onBlur={onBlur}>
         <FlowCardTitle
           value={data.text}
           editing={editing}
           placeholder="Step name"
           onChange={(text) => updateData({ text })}
-          onDone={stopEditing}
         />
+        {(editing || subtitle) && (
+          <FlowCardSubtitle
+            value={subtitle}
+            editing={editing}
+            placeholder="Add a detail"
+            onChange={(value) => updateData({ subtitle: value })}
+          />
+        )}
       </FlowCardFace>
     </FlowCard>
   )
@@ -82,4 +123,12 @@ function FlowCardToolbar({ data, updateData }: NodeProps<FlowCardData>) {
   return <ColorPicker value={data.color} options={COLORS} onChange={(color) => updateData({ color })} />
 }
 
-export { FlowCard, FlowCardFace, FlowCardNode, FlowCardTitle, FlowCardToolbar, flowCardFaceVariants }
+export {
+  FlowCard,
+  FlowCardFace,
+  FlowCardNode,
+  FlowCardSubtitle,
+  FlowCardTitle,
+  FlowCardToolbar,
+  flowCardFaceVariants,
+}
