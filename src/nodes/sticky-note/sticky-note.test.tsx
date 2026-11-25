@@ -8,6 +8,19 @@ describe("StickyNote", () => {
     expect(screen.getByText("Hello")).toHaveClass("bg-note-blue")
   })
 
+  it.each([
+    ["green", "bg-note-green"],
+    ["orange", "bg-note-orange"],
+  ] as const)("uses the %s colour", (color, className) => {
+    render(<StickyNote color={color}>Hello</StickyNote>)
+    expect(screen.getByText("Hello")).toHaveClass(className)
+  })
+
+  it("keeps an old note without a colour yellow", () => {
+    render(<StickyNote>Old note</StickyNote>)
+    expect(screen.getByText("Old note")).toHaveClass("bg-note-yellow")
+  })
+
   it("shows the saved text", () => {
     render(
       <StickyNoteNode

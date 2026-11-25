@@ -83,6 +83,16 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --color-note-green: var(--note-green);
+  --color-note-green-foreground: var(--note-green-foreground);
+  --color-note-green-border: var(--note-green-border);
+  --color-note-green-hover: var(--note-green-hover);
+  --color-note-green-edit: var(--note-green-edit);
+  --color-note-orange: var(--note-orange);
+  --color-note-orange-foreground: var(--note-orange-foreground);
+  --color-note-orange-border: var(--note-orange-border);
+  --color-note-orange-hover: var(--note-orange-hover);
+  --color-note-orange-edit: var(--note-orange-edit);
 }
 
 :root {
@@ -153,6 +163,17 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* Sticky note: green and orange (issue #31) */
+  --note-green: #e4fbe0;
+  --note-green-foreground: #6d8569;
+  --note-green-border: #d4eed2;
+  --note-green-hover: #97c98f;
+  --note-green-edit: #4f9a43;
+  --note-orange: #feefe0;
+  --note-orange-foreground: #857869;
+  --note-orange-border: #eee2d2;
+  --note-orange-hover: #d6b597;
+  --note-orange-edit: #c27a34;
 }
 
 .dark {

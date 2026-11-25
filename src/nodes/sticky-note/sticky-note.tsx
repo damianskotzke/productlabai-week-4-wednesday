@@ -4,7 +4,7 @@ import { EditableText } from "@/components/board/editable-text"
 import { cn } from "@/lib/utils"
 import type { NodeProps } from "../define-node"
 
-export type StickyNoteColor = "yellow" | "blue" | "purple" | "red"
+export type StickyNoteColor = "yellow" | "blue" | "purple" | "red" | "green" | "orange"
 export type StickyNoteData = { text: string; color: StickyNoteColor }
 
 const stickyNoteVariants = cva(
@@ -22,6 +22,10 @@ const stickyNoteVariants = cva(
         purple:
           "border-note-purple-border bg-note-purple text-note-purple-foreground group-[:hover:not([data-selected])]/node:border-note-purple-hover group-data-editing/node:border-note-purple-edit!",
         red: "border-note-red-border bg-note-red text-note-red-foreground group-[:hover:not([data-selected])]/node:border-note-red-hover group-data-editing/node:border-note-red-edit!",
+        green:
+          "border-note-green-border bg-note-green text-note-green-foreground group-[:hover:not([data-selected])]/node:border-note-green-hover group-data-editing/node:border-note-green-edit!",
+        orange:
+          "border-note-orange-border bg-note-orange text-note-orange-foreground group-[:hover:not([data-selected])]/node:border-note-orange-hover group-data-editing/node:border-note-orange-edit!",
       },
     },
     defaultVariants: { color: "yellow" },
@@ -89,6 +93,8 @@ const COLORS: ColorOption<StickyNoteColor>[] = [
   { value: "blue", label: "Blue", className: "border-note-blue-hover bg-note-blue" },
   { value: "purple", label: "Purple", className: "border-note-purple-hover bg-note-purple" },
   { value: "red", label: "Red", className: "border-note-red-hover bg-note-red" },
+  { value: "green", label: "Green", className: "border-note-green-hover bg-note-green" },
+  { value: "orange", label: "Orange", className: "border-note-orange-hover bg-note-orange" },
 ]
 
 /** Extra controls in the context bar. */
