@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils"
 import { getNodeDefinition } from "@/nodes/registry"
 import { ContextBar } from "./context-bar"
 import { TopBar } from "./top-bar"
+import { useBoardClipboard } from "./use-board-clipboard"
 
 /** The full whiteboard page: canvas, nodes, bars. */
 function Board() {
@@ -21,6 +22,7 @@ function Board() {
 
   useBoardSync()
   useBoardGestures(ref)
+  useBoardClipboard(ref)
 
   // Tell the store the size of the board, for "zoom to fit" and the canvas.
   useEffect(() => {
