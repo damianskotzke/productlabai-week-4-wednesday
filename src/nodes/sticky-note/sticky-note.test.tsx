@@ -23,4 +23,25 @@ describe("StickyNote", () => {
     )
     expect(screen.getByRole("textbox")).toHaveTextContent("Ship it")
   })
+
+  it("shows the Christmas lights when the note is selected or in edit", () => {
+    const props = {
+      id: "1",
+      data: { text: "Ho ho ho", color: "yellow" as const },
+      width: 240,
+      height: 240,
+      updateData: vi.fn(),
+      stopEditing: vi.fn(),
+    }
+    const lights = () => container.querySelector('[data-slot="sticky-note-lights"]')
+    const { container, rerender } = render(<StickyNoteNode {...props} selected={false} editing={false} />)
+    expect(lights()).toBeNull()
+
+    rerender(<StickyNoteNode {...props} selected editing={false} />)
+    expect(lights()).not.toBeNull()
+    expect(lights()!.querySelectorAll('[data-slot="sticky-note-lights-bulbs"]')).toHaveLength(3)
+
+    rerender(<StickyNoteNode {...props} selected editing />)
+    expect(lights()).not.toBeNull()
+  })
 })

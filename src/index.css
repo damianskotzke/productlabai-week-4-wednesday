@@ -83,6 +83,11 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  /* Christmas lights around a selected sticky note. */
+  --color-lights-red: var(--lights-red);
+  --color-lights-green: var(--lights-green);
+  --color-lights-gold: var(--lights-gold);
+  --color-lights-wire: var(--lights-wire);
 }
 
 :root {
@@ -153,6 +158,10 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --lights-red: #e3262f;
+  --lights-green: #1fa35a;
+  --lights-gold: #f6c343;
+  --lights-wire: #1d4d2c;
 }
 
 .dark {
@@ -210,4 +219,25 @@ body,
 body {
   overflow: hidden;
   overscroll-behavior: none;
+}
+
+/* Christmas lights on a sticky note: the colour band runs, the bulbs twinkle. */
+@theme {
+  --animate-lights-run: lights-run 3s linear infinite;
+  --animate-lights-twinkle: lights-twinkle 1.2s ease-in-out infinite;
+
+  @keyframes lights-run {
+    to {
+      stroke-dashoffset: -100;
+    }
+  }
+  @keyframes lights-twinkle {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.25;
+    }
+  }
 }
