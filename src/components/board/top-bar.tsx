@@ -4,9 +4,11 @@ import {
   Cursor02Icon,
   DashboardSquare01Icon,
   FullScreenIcon,
+  GridIcon,
   PencilEdit02Icon,
   PlusSignIcon,
 } from "@hugeicons/core-free-icons"
+import { GRID_STYLES, useGridStyle, type GridStyle } from "@/canvas/grid-style"
 import { SELECT_TOOL, useBoardStore } from "@/canvas/store"
 import avatar from "@/assets/avatar-me.png"
 import {
@@ -15,8 +17,13 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { nodeDefinitions } from "@/nodes/registry"
@@ -47,6 +54,8 @@ function TopBar() {
   const setTool = useBoardStore((state) => state.setTool)
   const setTitle = useBoardStore((state) => state.setTitle)
   const zoomToFit = useBoardStore((state) => state.zoomToFit)
+  const gridStyle = useGridStyle((state) => state.gridStyle)
+  const setGridStyle = useGridStyle((state) => state.setGridStyle)
   const [dialog, setDialog] = useState<"rename" | null>(null)
 
   return (
@@ -66,6 +75,23 @@ function TopBar() {
                 <Icon icon={FullScreenIcon} /> Zoom to fit
                 <DropdownMenuShortcut>⌘0</DropdownMenuShortcut>
               </DropdownMenuItem>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <Icon icon={GridIcon} /> Grid
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent data-board-ui className="w-32">
+                  <DropdownMenuRadioGroup
+                    value={gridStyle}
+                    onValueChange={(value) => setGridStyle(value as GridStyle)}
+                  >
+                    {GRID_STYLES.map((style) => (
+                      <DropdownMenuRadioItem key={style.value} value={style.value} closeOnClick>
+                        {style.label}
+                      </DropdownMenuRadioItem>
+                    ))}
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
               <DropdownMenuSeparator />
               <DropdownMenuItem render={<a href="/nodes" />}>
                 <Icon icon={DashboardSquare01Icon} /> Node gallery
