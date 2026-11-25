@@ -1,6 +1,6 @@
-import { Component, memo, useRef, type ReactNode } from "react"
+import { Component, memo, type ReactNode } from "react"
 import { SELECT_TOOL, useBoardStore } from "@/canvas/store"
-import type { Point, Side } from "@/canvas/types"
+import type { Side } from "@/canvas/types"
 import { cn } from "@/lib/utils"
 import { getNodeDefinition } from "@/nodes/registry"
 import { NodeAuthor, NodeDecorations } from "./node-decorations"
@@ -20,46 +20,7 @@ const HANDLES: Array<{ side: Side; className: string }> = [
   { side: "left", className: "top-1/2 -left-[7.5px] -translate-y-1/2" },
 ]
 
-/** The eight directions: left, right, up, down and the four diagonals. */
-const FLEE_DIRECTIONS: Point[] = [-1, 0, 1]
-  .flatMap((x) => [-1, 0, 1].map((y) => ({ x, y })))
-  .filter((direction) => direction.x !== 0 || direction.y !== 0)
-
-/** How far a clicked node runs away: one of its widths, in a random direction. */
-function fleeOffset(width: number, random: () => number = Math.random): Point {
-  const direction = FLEE_DIRECTIONS[Math.floor(random() * FLEE_DIRECTIONS.length)]
-  return { x: direction.x * width, y: direction.y * width }
-}
-
-/** Move a clicked node away from the mouse and save the new position. */
-function useFleeOnClick(id: string) {
-  const pressedAt = useRef<Point | null>(null)
-
-  const onPointerDown = () => {
-    const node = useBoardStore.getState().nodes[id]
-    pressedAt.current = node ? { x: node.x, y: node.y } : null
-  }
-
-  const onClick = (event: React.MouseEvent) => {
-    const start = pressedAt.current
-    pressedAt.current = null
-    const state = useBoardStore.getState()
-    const node = state.nodes[id]
-    if (!node || !start || state.editingId === id || state.tool !== SELECT_TOOL) return
-    // The connection dots and the resize grip keep their normal job.
-    if ((event.target as Element).closest("[data-handle], [data-resize]")) return
-    // A drag also ends with a click. Only a click without a move makes the node run away.
-    if (node.x !== start.x || node.y !== start.y) return
-    const offset = fleeOffset(node.width)
-    state.patchNode(id, { x: node.x + offset.x, y: node.y + offset.y })
-    state.commitNode(id)
-  }
-
-  return { onPointerDown, onClick }
-}
-
 const NodeShell = memo(function NodeShell({ id, rank }: { id: string; rank: number }) {
-  const flee = useFleeOnClick(id)
   const node = useBoardStore((state) => state.nodes[id])
   const selected = useBoardStore((state) => state.selection?.kind === "node" && state.selection.id === id)
   const editing = useBoardStore((state) => state.editingId === id)
@@ -88,8 +49,6 @@ const NodeShell = memo(function NodeShell({ id, rank }: { id: string; rank: numb
         isDropTarget && "rounded-2xl outline-2 outline-offset-[6px] outline-selection outline-dashed",
       )}
       style={{ left: node.x, top: node.y, width: node.width, height: node.height, zIndex: rank }}
-      onPointerDown={flee.onPointerDown}
-      onClick={flee.onClick}
     >
       {NodeComponent ? (
         <NodeErrorBoundary type={node.type}>
@@ -177,4 +136,4 @@ class NodeErrorBoundary extends Component<{ type: string; children: ReactNode },
   }
 }
 
-export { fleeOffset, NodeErrorBoundary, NodeFallback, NodeShell }
+export { NodeErrorBoundary, NodeFallback, NodeShell }
