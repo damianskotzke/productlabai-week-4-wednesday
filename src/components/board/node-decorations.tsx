@@ -1,7 +1,17 @@
-import { Sad01Icon, StarIcon, ThumbsUpIcon } from "@hugeicons/core-free-icons"
+import {
+  Clapping01Icon,
+  FavouriteIcon,
+  HelpCircleIcon,
+  Idea01Icon,
+  LaughingIcon,
+  Sad01Icon,
+  StarIcon,
+  ThumbsUpIcon,
+} from "@hugeicons/core-free-icons"
 import dogUrl from "@/assets/reaction-dog.png"
 import { Icon, type IconSvgElement } from "@/components/icon"
 import type { Reaction, ReactionKind, Tag } from "@/canvas/types"
+import { githubAvatarUrl } from "@/lib/identity"
 import { cn } from "@/lib/utils"
 
 /** Reactions and tags: small items that each node type can have. */
@@ -27,6 +37,31 @@ export const REACTIONS: Record<ReactionKind, ReactionStyle> = {
     icon: Sad01Icon,
     className: "border-reaction-red-border bg-reaction-red text-reaction-red-border",
   },
+  heart: {
+    label: "Love it",
+    icon: FavouriteIcon,
+    className: "border-reaction-pink-border bg-reaction-pink text-reaction-pink-border",
+  },
+  idea: {
+    label: "Good idea",
+    icon: Idea01Icon,
+    className: "border-reaction-blue-border bg-reaction-blue text-reaction-blue-border",
+  },
+  laugh: {
+    label: "Funny",
+    icon: LaughingIcon,
+    className: "border-reaction-purple-border bg-reaction-purple text-reaction-purple-border",
+  },
+  clap: {
+    label: "Well done",
+    icon: Clapping01Icon,
+    className: "border-reaction-orange-border bg-reaction-orange text-reaction-orange-border",
+  },
+  question: {
+    label: "Question",
+    icon: HelpCircleIcon,
+    className: "border-reaction-gray-border bg-reaction-gray text-reaction-gray-border",
+  },
   dog: {
     label: "Dog",
     image: dogUrl,
@@ -39,6 +74,11 @@ function placement(item: { x: number; y: number; rotation: number }): React.CSSP
     top: `${item.y * 100}%`,
     transform: `translate(-50%, -50%) rotate(${item.rotation}deg)`,
   }
+}
+
+function reactionTitle(reaction: Reaction) {
+  const label = REACTIONS[reaction.kind]?.label ?? reaction.kind
+  return reaction.by && !reaction.by.startsWith("anon-") ? `${label} from @${reaction.by}` : label
 }
 
 function ReactionBadge({ kind, className, ...props }: React.ComponentProps<"span"> & { kind: ReactionKind }) {
@@ -60,12 +100,12 @@ function ReactionBadge({ kind, className, ...props }: React.ComponentProps<"span
     <span
       data-slot="reaction-badge"
       title={reaction.label}
+      {...props}
       className={cn(
         "flex size-8 items-center justify-center rounded-full border-[1.5px]",
         reaction.className,
         className,
       )}
-      {...props}
     >
       <Icon icon={reaction.icon} className="size-5" />
     </span>
@@ -92,6 +132,7 @@ function NodeDecorations({ reactions = [], tags = [] }: { reactions?: Reaction[]
         <ReactionBadge
           key={`reaction-${index}`}
           kind={reaction.kind}
+          title={reactionTitle(reaction)}
           className="pointer-events-none absolute z-10"
           style={placement(reaction)}
         />
@@ -102,6 +143,22 @@ function NodeDecorations({ reactions = [], tags = [] }: { reactions?: Reaction[]
         </TagChip>
       ))}
     </>
+  )
+}
+
+/** The GitHub picture of the person who made a node. Hover to see the name. */
+function NodeAuthor({ user, className, ...props }: React.ComponentProps<"img"> & { user: string }) {
+  return (
+    <img
+      data-slot="node-author"
+      src={githubAvatarUrl(user, 48)}
+      alt={`@${user}`}
+      title={`Idea from @${user}`}
+      loading="lazy"
+      draggable={false}
+      className={cn("size-6 rounded-full border-2 border-background bg-muted shadow-flat", className)}
+      {...props}
+    />
   )
 }
 
@@ -119,4 +176,4 @@ export function randomEdgePlacement(sides: Array<"top" | "right" | "bottom" | "l
   return { x: Math.round(point.x * 1000) / 1000, y: Math.round(point.y * 1000) / 1000, rotation }
 }
 
-export { NodeDecorations, ReactionBadge, TagChip }
+export { NodeAuthor, NodeDecorations, ReactionBadge, TagChip }

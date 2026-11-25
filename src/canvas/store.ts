@@ -1,6 +1,7 @@
 import { toast } from "sonner"
 import { create } from "zustand"
 import { repository } from "@/lib/board-repository"
+import { getGithubUser } from "@/lib/identity"
 import { getNodeDefinition } from "@/nodes/registry"
 import { boundsOf, fitView, zoomAt } from "./geometry"
 import type { BoardEdge, BoardNode, BoardSnapshot, Point, Selection, View } from "./types"
@@ -138,7 +139,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       height,
       z: Date.now(),
       data: { ...structuredClone(definition.defaultData), ...data },
-      createdBy: null,
+      createdBy: getGithubUser(),
     }
     set(({ nodes }) => ({
       nodes: { ...nodes, [node.id]: node },
