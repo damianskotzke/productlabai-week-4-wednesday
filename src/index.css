@@ -89,6 +89,8 @@
   --color-tomato: var(--tomato);
   --color-tomato-foreground: var(--tomato-foreground);
   --color-tomato-leaf: var(--tomato-leaf);
+  --color-note-dollar: var(--note-dollar);
+  --color-note-dollar-foreground: var(--note-dollar-foreground);
 }
 
 :root {
@@ -166,6 +168,9 @@
   --tomato: #d1432c;
   --tomato-foreground: #fff7f3;
   --tomato-leaf: #4f8f3a;
+  /* Sticky note that starts with "$" */
+  --note-dollar: #e228bd;
+  --note-dollar-foreground: #ffffff;
 }
 
 .dark {
