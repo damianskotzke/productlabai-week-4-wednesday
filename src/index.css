@@ -86,6 +86,9 @@
   --color-golden-fur: var(--golden-fur);
   --color-golden-ear: var(--golden-ear);
   --color-golden-ink: var(--golden-ink);
+  --color-tomato: var(--tomato);
+  --color-tomato-foreground: var(--tomato-foreground);
+  --color-tomato-leaf: var(--tomato-leaf);
 }
 
 :root {
@@ -159,6 +162,10 @@
   --golden-fur: #f0c57a;
   --golden-ear: #d49c4b;
   --golden-ink: #3b2a20;
+  /* Tomato timer node */
+  --tomato: #d1432c;
+  --tomato-foreground: #fff7f3;
+  --tomato-leaf: #4f8f3a;
 }
 
 .dark {
