@@ -1,9 +1,10 @@
-import { useState } from "react"
+import { useLayoutEffect, useState } from "react"
 import {
   ArrowDown01Icon,
   Cursor02Icon,
   DashboardSquare01Icon,
   FullScreenIcon,
+  Moon02Icon,
   PencilEdit02Icon,
   PlusSignIcon,
 } from "@hugeicons/core-free-icons"
@@ -11,6 +12,7 @@ import { SELECT_TOOL, useBoardStore } from "@/canvas/store"
 import avatar from "@/assets/avatar-me.png"
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
@@ -37,6 +39,25 @@ const pinnedDefinitions = PINNED_TOOLS.flatMap((type) =>
 )
 const moreDefinitions = nodeDefinitions.filter((definition) => !PINNED_TOOLS.includes(definition.type))
 
+/** The theme is saved in this browser only. Each person picks their own theme. */
+const THEME_KEY = "whiteboard-theme"
+
+function readDarkTheme() {
+  try {
+    return localStorage.getItem(THEME_KEY) === "dark"
+  } catch {
+    return false
+  }
+}
+
+function saveDarkTheme(dark: boolean) {
+  try {
+    localStorage.setItem(THEME_KEY, dark ? "dark" : "light")
+  } catch {
+    // Storage is blocked. The theme then works until the next reload.
+  }
+}
+
 /**
  * The bar at the top left: board title, tools, and the avatar.
  * The tools come from the node registry. A new node shows in the "More nodes" menu.
@@ -48,6 +69,17 @@ function TopBar() {
   const setTitle = useBoardStore((state) => state.setTitle)
   const zoomToFit = useBoardStore((state) => state.zoomToFit)
   const [dialog, setDialog] = useState<"rename" | null>(null)
+  const [dark, setDark] = useState(readDarkTheme)
+
+  // A layout effect sets the class before the first paint, so the board does not flash.
+  useLayoutEffect(() => {
+    document.documentElement.classList.toggle("dark", dark)
+  }, [dark])
+
+  const changeTheme = (next: boolean) => {
+    setDark(next)
+    saveDarkTheme(next)
+  }
 
   return (
     <>
@@ -66,6 +98,9 @@ function TopBar() {
                 <Icon icon={FullScreenIcon} /> Zoom to fit
                 <DropdownMenuShortcut>⌘0</DropdownMenuShortcut>
               </DropdownMenuItem>
+              <DropdownMenuCheckboxItem checked={dark} onCheckedChange={changeTheme}>
+                <Icon icon={Moon02Icon} /> Dark theme
+              </DropdownMenuCheckboxItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem render={<a href="/nodes" />}>
                 <Icon icon={DashboardSquare01Icon} /> Node gallery
