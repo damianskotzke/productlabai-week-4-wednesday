@@ -1,30 +1,40 @@
-import { useState } from "react"
+import { useLayoutEffect, useState } from "react"
 import { toast } from "sonner"
 import {
   ArrowDown01Icon,
   Cursor02Icon,
   DashboardSquare01Icon,
   FullScreenIcon,
+  GridIcon,
+  Moon02Icon,
   PencilEdit02Icon,
-  PlusSignIcon,
+  UserMultipleIcon,
 } from "@hugeicons/core-free-icons"
+import { GRID_STYLES, useGridStyle, type GridStyle } from "@/canvas/grid-style"
 import { SELECT_TOOL, useBoardStore } from "@/canvas/store"
 import avatar from "@/assets/avatar-me.png"
 import { githubAvatarUrl, setGithubUser, useGithubUser } from "@/lib/identity"
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { nodeDefinitions } from "@/nodes/registry"
 import { Icon } from "@/components/icon"
-import { Button } from "@/components/ui/button"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { presenceLabel, usePresence } from "@/lib/use-presence"
 import { Bar, BarButton, BarGroup, BarSeparator } from "./bar"
+import { NodeMenu } from "./node-menu"
+import { COOL_STICKER_TOOL, CoolStickerPicker } from "./cool-sticker-picker"
 import { TextPromptDialog } from "./text-prompt-dialog"
 
 /**
@@ -37,10 +47,34 @@ const PINNED_TOOLS = ["text", "sticky-note", "card", "image"]
 const pinnedDefinitions = PINNED_TOOLS.flatMap((type) =>
   nodeDefinitions.filter((definition) => definition.type === type),
 )
-const moreDefinitions = nodeDefinitions.filter((definition) => !PINNED_TOOLS.includes(definition.type))
+/** The node types that have their own picker in the bar, so they are not in "More nodes". */
+const OWN_PICKER_TOOLS = [COOL_STICKER_TOOL]
+
+const moreDefinitions = nodeDefinitions.filter(
+  (definition) => !PINNED_TOOLS.includes(definition.type) && !OWN_PICKER_TOOLS.includes(definition.type),
+)
+
+/** The theme is saved in this browser only. Each person picks their own theme. */
+const THEME_KEY = "whiteboard-theme"
+
+function readDarkTheme() {
+  try {
+    return localStorage.getItem(THEME_KEY) === "dark"
+  } catch {
+    return false
+  }
+}
+
+function saveDarkTheme(dark: boolean) {
+  try {
+    localStorage.setItem(THEME_KEY, dark ? "dark" : "light")
+  } catch {
+    // Storage is blocked. The theme then works until the next reload.
+  }
+}
 
 /**
- * The bar at the top left: board title, tools, and the avatar.
+ * The bar at the top left: board title, tools, the number of people online, and the avatar.
  * The tools come from the node registry. A new node shows in the "More nodes" menu.
  */
 function TopBar() {
@@ -50,7 +84,21 @@ function TopBar() {
   const setTitle = useBoardStore((state) => state.setTitle)
   const zoomToFit = useBoardStore((state) => state.zoomToFit)
   const githubUser = useGithubUser()
+  const gridStyle = useGridStyle((state) => state.gridStyle)
+  const setGridStyle = useGridStyle((state) => state.setGridStyle)
   const [dialog, setDialog] = useState<"rename" | "name" | null>(null)
+  const presence = usePresence()
+  const [dark, setDark] = useState(readDarkTheme)
+
+  // A layout effect sets the class before the first paint, so the board does not flash.
+  useLayoutEffect(() => {
+    document.documentElement.classList.toggle("dark", dark)
+  }, [dark])
+
+  const changeTheme = (next: boolean) => {
+    setDark(next)
+    saveDarkTheme(next)
+  }
 
   return (
     <>
@@ -69,6 +117,26 @@ function TopBar() {
                 <Icon icon={FullScreenIcon} /> Zoom to fit
                 <DropdownMenuShortcut>⌘0</DropdownMenuShortcut>
               </DropdownMenuItem>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <Icon icon={GridIcon} /> Grid
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent data-board-ui className="w-32">
+                  <DropdownMenuRadioGroup
+                    value={gridStyle}
+                    onValueChange={(value) => setGridStyle(value as GridStyle)}
+                  >
+                    {GRID_STYLES.map((style) => (
+                      <DropdownMenuRadioItem key={style.value} value={style.value} closeOnClick>
+                        {style.label}
+                      </DropdownMenuRadioItem>
+                    ))}
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+              <DropdownMenuCheckboxItem checked={dark} onCheckedChange={changeTheme}>
+                <Icon icon={Moon02Icon} /> Dark theme
+              </DropdownMenuCheckboxItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem render={<a href="/nodes" />}>
                 <Icon icon={DashboardSquare01Icon} /> Node gallery
@@ -99,43 +167,34 @@ function TopBar() {
               <Icon icon={definition.icon} />
             </BarButton>
           ))}
+          <CoolStickerPicker />
           {moreDefinitions.length > 0 && (
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                render={
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    aria-label="More nodes"
-                    title="More nodes"
-                    data-active={moreDefinitions.some((definition) => definition.type === tool) || undefined}
-                    className="rounded-sm text-foreground data-active:border-border data-active:bg-muted data-active:shadow-flat [&_svg:not([class*='size-'])]:size-5"
-                  />
-                }
-              >
-                <Icon icon={PlusSignIcon} />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent data-board-ui className="max-h-96 w-64" sideOffset={12}>
-                <DropdownMenuGroup>
-                  <DropdownMenuLabel>More nodes ({moreDefinitions.length})</DropdownMenuLabel>
-                  {moreDefinitions.map((definition) => (
-                    <DropdownMenuItem key={definition.type} onClick={() => setTool(definition.type)}>
-                      <Icon icon={definition.icon} />
-                      <span className="truncate">{definition.label}</span>
-                      <span className="ml-auto truncate text-xs text-muted-foreground">
-                        {definition.author}
-                      </span>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <NodeMenu definitions={moreDefinitions} activeType={tool} onPick={setTool} />
           )}
         </BarGroup>
 
         <BarSeparator />
 
         <BarGroup className="p-2">
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <div
+                  data-slot="top-bar-presence"
+                  role="status"
+                  tabIndex={0}
+                  aria-label={presenceLabel(presence)}
+                  className="flex h-8 items-center gap-1 rounded-sm px-2 text-sm font-medium tabular-nums text-muted-foreground outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring"
+                />
+              }
+            >
+              <Icon icon={UserMultipleIcon} className="size-4" />
+              {presence.count}
+            </TooltipTrigger>
+            <TooltipContent side="bottom" sideOffset={8}>
+              {presenceLabel(presence)}
+            </TooltipContent>
+          </Tooltip>
           <BarButton
             label={githubUser ? `You are @${githubUser}. Click to change.` : "Set your GitHub name"}
             onClick={() => setDialog("name")}

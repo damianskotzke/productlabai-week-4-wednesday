@@ -29,6 +29,7 @@ import { getMyId } from "@/lib/identity"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { getNodeDefinition, nodeDefinitions } from "@/nodes/registry"
 import { Bar, BarButton, BarGroup, BarSeparator } from "./bar"
+import { showDogConfetti } from "./dog-confetti"
 import { REACTIONS, ReactionBadge, randomEdgePlacement } from "./node-decorations"
 
 const BAR_HEIGHT = 42
@@ -73,12 +74,15 @@ function NodeContextBar({ id }: { id: string }) {
   // One reaction of each kind for each person. A second click takes it back.
   const me = getMyId()
   const isMine = (reaction: Reaction, kind: ReactionKind) => reaction.kind === kind && reaction.by === me
-  const toggleReaction = (kind: ReactionKind) =>
+  const toggleReaction = (kind: ReactionKind) => {
+    const given = reactions.some((reaction) => isMine(reaction, kind))
     updateNodeData(id, {
-      reactions: reactions.some((reaction) => isMine(reaction, kind))
+      reactions: given
         ? reactions.filter((reaction) => !isMine(reaction, kind))
         : [...reactions, { kind, by: me, ...randomEdgePlacement(["left", "right", "top", "bottom"]) }],
     })
+    if (kind === "dog" && !given) showDogConfetti()
+  }
   const addTag = (text: string) =>
     updateNodeData(id, { tags: [...tags, { text, ...randomEdgePlacement(["top", "bottom"]) }] })
 

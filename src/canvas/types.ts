@@ -17,6 +17,7 @@ export type ReactionKind =
   | "laugh"
   | "clap"
   | "question"
+  | "dog"
 
 /**
  * A reaction badge on a node.

@@ -8,6 +8,7 @@ import {
   StarIcon,
   ThumbsUpIcon,
 } from "@hugeicons/core-free-icons"
+import dogUrl from "@/assets/reaction-dog.png"
 import { Icon, type IconSvgElement } from "@/components/icon"
 import type { Reaction, ReactionKind, Tag } from "@/canvas/types"
 import { githubAvatarUrl } from "@/lib/identity"
@@ -15,7 +16,12 @@ import { cn } from "@/lib/utils"
 
 /** Reactions and tags: small items that each node type can have. */
 
-export const REACTIONS: Record<ReactionKind, { label: string; icon: IconSvgElement; className: string }> = {
+/** A reaction shows an icon in a coloured circle, or a sticker image. */
+type ReactionStyle =
+  | { label: string; icon: IconSvgElement; className: string; image?: never }
+  | { label: string; image: string; icon?: never; className?: never }
+
+export const REACTIONS: Record<ReactionKind, ReactionStyle> = {
   "thumbs-up": {
     label: "Thumbs up",
     icon: ThumbsUpIcon,
@@ -56,6 +62,10 @@ export const REACTIONS: Record<ReactionKind, { label: string; icon: IconSvgEleme
     icon: HelpCircleIcon,
     className: "border-reaction-gray-border bg-reaction-gray text-reaction-gray-border",
   },
+  dog: {
+    label: "Dog",
+    image: dogUrl,
+  },
 }
 
 function placement(item: { x: number; y: number; rotation: number }): React.CSSProperties {
@@ -74,6 +84,18 @@ function reactionTitle(reaction: Reaction) {
 function ReactionBadge({ kind, className, ...props }: React.ComponentProps<"span"> & { kind: ReactionKind }) {
   const reaction = REACTIONS[kind]
   if (!reaction) return null
+  if (!reaction.icon) {
+    return (
+      <span
+        data-slot="reaction-badge"
+        title={reaction.label}
+        className={cn("flex size-8 items-center justify-center", className)}
+        {...props}
+      >
+        <img src={reaction.image} alt="" draggable={false} className="h-full w-auto drop-shadow-sm" />
+      </span>
+    )
+  }
   return (
     <span
       data-slot="reaction-badge"

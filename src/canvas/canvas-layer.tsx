@@ -1,11 +1,12 @@
 import { useEffect, useRef } from "react"
 import { draftPoints, edgePoints } from "./edges"
 import { GRID_SIZE, tracePolyline } from "./geometry"
+import { useGridStyle } from "./grid-style"
 import { useBoardStore } from "./store"
 
 /**
  * The <canvas> element below the nodes.
- * It draws the grid lines and the connectors with the 2D context.
+ * It draws the grid (dots, lines or none) and the connectors with the 2D context.
  * It does not use React state: it draws again when the store changes.
  */
 export function CanvasLayer() {
@@ -17,14 +18,18 @@ export function CanvasLayer() {
     if (!canvas || !context) return
 
     // Colours come from the theme tokens in `src/index.css`.
-    const styles = getComputedStyle(document.documentElement)
-    const token = (name: string) => styles.getPropertyValue(name).trim()
-    const colors = {
-      grid: token("--grid-line"),
-      edge: token("--edge"),
-      dashed: token("--edge-dashed"),
-      selected: token("--selection"),
+    // Read them once here, not in the draw loop, and again when the theme changes.
+    const readColors = () => {
+      const styles = getComputedStyle(document.documentElement)
+      const token = (name: string) => styles.getPropertyValue(name).trim()
+      return {
+        dot: token("--grid-dot"),
+        edge: token("--edge"),
+        dashed: token("--edge-dashed"),
+        selected: token("--selection"),
+      }
     }
+    let colors = readColors()
 
     let frame = 0
 
@@ -42,26 +47,39 @@ export function CanvasLayer() {
       // 1. Grid, in screen pixels.
       context.setTransform(ratio, 0, 0, ratio, 0, 0)
       context.clearRect(0, 0, viewport.width, viewport.height)
-      // 1 px lines. Add half a pixel so each line falls on one pixel row and stays sharp.
+      const { gridStyle } = useGridStyle.getState()
       let step = GRID_SIZE * view.scale
-      while (step < 16) step *= 2
+      while (step < 12) step *= 2
       const startX = ((view.x % step) + step) % step
       const startY = ((view.y % step) + step) % step
-      context.strokeStyle = colors.grid
-      context.lineWidth = 1
-      context.setLineDash([])
-      context.beginPath()
-      for (let x = startX; x < viewport.width; x += step) {
-        const px = Math.round(x) + 0.5
-        context.moveTo(px, 0)
-        context.lineTo(px, viewport.height)
+      if (gridStyle === "dots") {
+        const dot = Math.max(1, Math.min(2, 1.5 * view.scale))
+        context.fillStyle = colors.dot
+        context.beginPath()
+        for (let x = startX; x < viewport.width; x += step) {
+          for (let y = startY; y < viewport.height; y += step) {
+            context.rect(x - dot / 2, y - dot / 2, dot, dot)
+          }
+        }
+        context.fill()
+      } else if (gridStyle === "lines") {
+        // Half-pixel offsets keep a 1 px line sharp.
+        const offset = 0.5 / ratio
+        context.strokeStyle = colors.dot
+        context.lineWidth = 1 / ratio
+        context.beginPath()
+        for (let x = startX; x < viewport.width; x += step) {
+          const lineX = Math.round(x * ratio) / ratio + offset
+          context.moveTo(lineX, 0)
+          context.lineTo(lineX, viewport.height)
+        }
+        for (let y = startY; y < viewport.height; y += step) {
+          const lineY = Math.round(y * ratio) / ratio + offset
+          context.moveTo(0, lineY)
+          context.lineTo(viewport.width, lineY)
+        }
+        context.stroke()
       }
-      for (let y = startY; y < viewport.height; y += step) {
-        const py = Math.round(y) + 0.5
-        context.moveTo(0, py)
-        context.lineTo(viewport.width, py)
-      }
-      context.stroke()
 
       // 2. Connectors, in world units.
       context.setTransform(ratio * view.scale, 0, 0, ratio * view.scale, ratio * view.x, ratio * view.y)
@@ -96,11 +114,20 @@ export function CanvasLayer() {
       if (!frame) frame = requestAnimationFrame(draw)
     }
     const unsubscribe = useBoardStore.subscribe(schedule)
+    const unsubscribeGrid = useGridStyle.subscribe(schedule)
     window.addEventListener("resize", schedule)
+    // The theme toggle changes the class on <html>. Then read the colours again.
+    const themeObserver = new MutationObserver(() => {
+      colors = readColors()
+      schedule()
+    })
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] })
     schedule()
 
     return () => {
       unsubscribe()
+      unsubscribeGrid()
+      themeObserver.disconnect()
       window.removeEventListener("resize", schedule)
       cancelAnimationFrame(frame)
     }
