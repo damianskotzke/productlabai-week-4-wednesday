@@ -9,17 +9,17 @@ import delulu from "./images/delulu.png"
 import pookie from "./images/pookie.png"
 
 /** All the stickers that a person can put on the board. */
-const STICKERS = [
+const COOL_STICKERS = [
   { id: "delulu", label: "Delulu", src: delulu },
   { id: "pookie", label: "Pookie", src: pookie },
   { id: "certified-yapper", label: "Certified yapper", src: certifiedYapper },
 ] as const
 
-export type StickerId = (typeof STICKERS)[number]["id"]
+export type CoolStickerId = (typeof COOL_STICKERS)[number]["id"]
 
 /** The data that the board saves for this node. */
-export type StickerData = {
-  sticker: StickerId
+export type CoolStickerData = {
+  sticker: CoolStickerId
   /** Rotation in degrees, from -180 to 180. Optional: older stickers do not have it. */
   rotation?: number
 }
@@ -28,8 +28,8 @@ export type StickerData = {
 const ROTATE_STEP = 15
 
 /** Find a sticker by id. An unknown id (for example from a newer version) gives the first sticker. */
-function getSticker(id: string | undefined) {
-  return STICKERS.find((sticker) => sticker.id === id) ?? STICKERS[0]
+function getCoolSticker(id: string | undefined) {
+  return COOL_STICKERS.find((sticker) => sticker.id === id) ?? COOL_STICKERS[0]
 }
 
 /** Keep an angle from -180 to 180 degrees, as a whole number. */
@@ -38,10 +38,10 @@ function normalizeAngle(degrees: number) {
   return Math.round(angle)
 }
 
-function Sticker({ className, ...props }: React.ComponentProps<"div">) {
+function CoolSticker({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
-      data-slot="sticker"
+      data-slot="cool-sticker"
       className={cn(
         "relative flex size-full items-center justify-center rounded-lg outline-2 outline-offset-2 outline-transparent transition-colors",
         "group-[:hover:not([data-selected])]/node:outline-edge-dashed group-data-selected/node:outline-selection",
@@ -52,10 +52,10 @@ function Sticker({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function StickerImage({ className, alt, ...props }: React.ComponentProps<"img">) {
+function CoolStickerImage({ className, alt, ...props }: React.ComponentProps<"img">) {
   return (
     <img
-      data-slot="sticker-image"
+      data-slot="cool-sticker-image"
       alt={alt}
       draggable={false}
       className={cn("pointer-events-none size-full object-contain drop-shadow-md", className)}
@@ -65,7 +65,7 @@ function StickerImage({ className, alt, ...props }: React.ComponentProps<"img">)
 }
 
 /** A round handle above a selected sticker. Drag it to rotate. Hold Shift to snap to 15°. */
-function StickerRotateHandle({
+function CoolStickerRotateHandle({
   className,
   onRotate,
   ...props
@@ -81,7 +81,7 @@ function StickerRotateHandle({
   return (
     <button
       type="button"
-      data-slot="sticker-rotate-handle"
+      data-slot="cool-sticker-rotate-handle"
       aria-label="Rotate sticker"
       title="Drag to rotate. Hold Shift to snap."
       className={cn(
@@ -107,18 +107,18 @@ function StickerRotateHandle({
 }
 
 /** The component that the board draws. */
-function StickerNode({ data, updateData }: NodeProps<StickerData>) {
-  const sticker = getSticker(data.sticker)
+function CoolStickerNode({ data, updateData }: NodeProps<CoolStickerData>) {
+  const sticker = getCoolSticker(data.sticker)
   return (
-    <Sticker style={{ rotate: `${data.rotation ?? 0}deg` }}>
-      <StickerImage src={sticker.src} alt={`${sticker.label} sticker`} />
-      <StickerRotateHandle onRotate={(rotation) => updateData({ rotation })} />
-    </Sticker>
+    <CoolSticker style={{ rotate: `${data.rotation ?? 0}deg` }}>
+      <CoolStickerImage src={sticker.src} alt={`${sticker.label} sticker`} />
+      <CoolStickerRotateHandle onRotate={(rotation) => updateData({ rotation })} />
+    </CoolSticker>
   )
 }
 
 /** Rotate buttons in the context bar. */
-function StickerToolbar({ data, updateData }: NodeProps<StickerData>) {
+function CoolStickerToolbar({ data, updateData }: NodeProps<CoolStickerData>) {
   const rotate = (by: number) => updateData({ rotation: normalizeAngle((data.rotation ?? 0) + by) })
   return (
     <>
@@ -147,12 +147,12 @@ function StickerToolbar({ data, updateData }: NodeProps<StickerData>) {
 }
 
 export {
-  STICKERS,
-  Sticker,
-  StickerImage,
-  StickerNode,
-  StickerRotateHandle,
-  StickerToolbar,
-  getSticker,
+  COOL_STICKERS,
+  CoolSticker,
+  CoolStickerImage,
+  CoolStickerNode,
+  CoolStickerRotateHandle,
+  CoolStickerToolbar,
+  getCoolSticker,
   normalizeAngle,
 }

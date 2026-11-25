@@ -11,7 +11,7 @@ import { useBoardSync } from "@/lib/use-board-sync"
 import { cn } from "@/lib/utils"
 import { getNodeDefinition } from "@/nodes/registry"
 import { ContextBar } from "./context-bar"
-import { STICKER_DRAG_TYPE, STICKER_TOOL, StickerCursorPreview, useStickerChoice } from "./sticker-picker"
+import { COOL_STICKER_DRAG_TYPE, COOL_STICKER_TOOL, CoolStickerCursorPreview, useCoolStickerChoice } from "./cool-sticker-picker"
 import { TopBar } from "./top-bar"
 
 /** The full whiteboard page: canvas, nodes, bars. */
@@ -47,19 +47,19 @@ function Board() {
   // This runs before the board gestures, because they make a node without data.
   const onPointerDownCapture = (event: React.PointerEvent) => {
     const state = useBoardStore.getState()
-    if (state.tool !== STICKER_TOOL || event.button !== 0 || !ref.current) return
+    if (state.tool !== COOL_STICKER_TOOL || event.button !== 0 || !ref.current) return
     if ((event.target as Element).closest("[data-board-ui]")) return
     event.stopPropagation()
-    state.addNode(STICKER_TOOL, pointFromEvent(event), { sticker: useStickerChoice.getState().sticker })
+    state.addNode(COOL_STICKER_TOOL, pointFromEvent(event), { sticker: useCoolStickerChoice.getState().sticker })
   }
 
   // Drop an image file on the board to make an image node,
   // or drop a sticker from the sticker picker.
   const onDrop = async (event: React.DragEvent) => {
-    const sticker = event.dataTransfer.getData(STICKER_DRAG_TYPE)
+    const sticker = event.dataTransfer.getData(COOL_STICKER_DRAG_TYPE)
     if (sticker && ref.current) {
       event.preventDefault()
-      useBoardStore.getState().addNode(STICKER_TOOL, pointFromEvent(event), { sticker })
+      useBoardStore.getState().addNode(COOL_STICKER_TOOL, pointFromEvent(event), { sticker })
       return
     }
     const file = Array.from(event.dataTransfer.files).find((entry) => entry.type.startsWith("image/"))
@@ -93,7 +93,7 @@ function Board() {
     >
       <CanvasLayer />
       <WorldLayer />
-      <StickerCursorPreview boardRef={ref} />
+      <CoolStickerCursorPreview boardRef={ref} />
       <TopBar />
       <ContextBar />
     </div>

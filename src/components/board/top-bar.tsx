@@ -23,7 +23,7 @@ import { nodeDefinitions } from "@/nodes/registry"
 import { Icon } from "@/components/icon"
 import { Button } from "@/components/ui/button"
 import { Bar, BarButton, BarGroup, BarSeparator } from "./bar"
-import { STICKER_TOOL, StickerPicker } from "./sticker-picker"
+import { COOL_STICKER_TOOL, CoolStickerPicker } from "./cool-sticker-picker"
 import { TextPromptDialog } from "./text-prompt-dialog"
 
 /**
@@ -37,7 +37,7 @@ const pinnedDefinitions = PINNED_TOOLS.flatMap((type) =>
   nodeDefinitions.filter((definition) => definition.type === type),
 )
 /** The node types that have their own picker in the bar, so they are not in "More nodes". */
-const OWN_PICKER_TOOLS = [STICKER_TOOL]
+const OWN_PICKER_TOOLS = [COOL_STICKER_TOOL]
 
 const moreDefinitions = nodeDefinitions.filter(
   (definition) => !PINNED_TOOLS.includes(definition.type) && !OWN_PICKER_TOOLS.includes(definition.type),
@@ -102,7 +102,7 @@ function TopBar() {
               <Icon icon={definition.icon} />
             </BarButton>
           ))}
-          <StickerPicker />
+          <CoolStickerPicker />
           {moreDefinitions.length > 0 && (
             <DropdownMenu>
               <DropdownMenuTrigger

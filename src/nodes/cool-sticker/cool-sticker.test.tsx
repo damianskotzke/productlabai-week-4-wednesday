@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
-import { StickerNode, normalizeAngle, type StickerData } from "./sticker"
+import { CoolStickerNode, normalizeAngle, type CoolStickerData } from "./cool-sticker"
 
 describe("normalizeAngle", () => {
   it("keeps the angle from -180 to 180", () => {
@@ -11,9 +11,9 @@ describe("normalizeAngle", () => {
   })
 })
 
-function renderSticker(data: StickerData) {
+function renderSticker(data: CoolStickerData) {
   render(
-    <StickerNode
+    <CoolStickerNode
       id="1"
       data={data}
       width={180}
@@ -26,7 +26,7 @@ function renderSticker(data: StickerData) {
   )
 }
 
-describe("StickerNode", () => {
+describe("CoolStickerNode", () => {
   it("shows the saved sticker", () => {
     renderSticker({ sticker: "pookie" })
     expect(screen.getByRole("img")).toHaveAccessibleName("Pookie sticker")
@@ -34,16 +34,16 @@ describe("StickerNode", () => {
 
   it("turns the sticker by its saved rotation", () => {
     renderSticker({ sticker: "pookie", rotation: 30 })
-    expect(screen.getByRole("img").closest('[data-slot="sticker"]')).toHaveStyle({ rotate: "30deg" })
+    expect(screen.getByRole("img").closest('[data-slot="cool-sticker"]')).toHaveStyle({ rotate: "30deg" })
   })
 
   it("is not turned when an older sticker has no rotation", () => {
     renderSticker({ sticker: "pookie" })
-    expect(screen.getByRole("img").closest('[data-slot="sticker"]')).toHaveStyle({ rotate: "0deg" })
+    expect(screen.getByRole("img").closest('[data-slot="cool-sticker"]')).toHaveStyle({ rotate: "0deg" })
   })
 
   it("shows the first sticker for an unknown id", () => {
-    renderSticker({ sticker: "old-sticker" as StickerData["sticker"] })
+    renderSticker({ sticker: "old-sticker" as CoolStickerData["sticker"] })
     expect(screen.getByRole("img")).toHaveAccessibleName("Delulu sticker")
   })
 })
