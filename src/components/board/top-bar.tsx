@@ -6,6 +6,7 @@ import {
   FullScreenIcon,
   PencilEdit02Icon,
   PlusSignIcon,
+  UserMultipleIcon,
 } from "@hugeicons/core-free-icons"
 import { SELECT_TOOL, useBoardStore } from "@/canvas/store"
 import avatar from "@/assets/avatar-me.png"
@@ -22,6 +23,8 @@ import {
 import { nodeDefinitions } from "@/nodes/registry"
 import { Icon } from "@/components/icon"
 import { Button } from "@/components/ui/button"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { presenceLabel, usePresence } from "@/lib/use-presence"
 import { Bar, BarButton, BarGroup, BarSeparator } from "./bar"
 import { TextPromptDialog } from "./text-prompt-dialog"
 
@@ -38,7 +41,7 @@ const pinnedDefinitions = PINNED_TOOLS.flatMap((type) =>
 const moreDefinitions = nodeDefinitions.filter((definition) => !PINNED_TOOLS.includes(definition.type))
 
 /**
- * The bar at the top left: board title, tools, and the avatar.
+ * The bar at the top left: board title, tools, the number of people online, and the avatar.
  * The tools come from the node registry. A new node shows in the "More nodes" menu.
  */
 function TopBar() {
@@ -48,6 +51,7 @@ function TopBar() {
   const setTitle = useBoardStore((state) => state.setTitle)
   const zoomToFit = useBoardStore((state) => state.zoomToFit)
   const [dialog, setDialog] = useState<"rename" | null>(null)
+  const presence = usePresence()
 
   return (
     <>
@@ -133,6 +137,25 @@ function TopBar() {
         <BarSeparator />
 
         <BarGroup className="p-2">
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <div
+                  data-slot="top-bar-presence"
+                  role="status"
+                  tabIndex={0}
+                  aria-label={presenceLabel(presence)}
+                  className="flex h-8 items-center gap-1 rounded-sm px-2 text-sm font-medium tabular-nums text-muted-foreground outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring"
+                />
+              }
+            >
+              <Icon icon={UserMultipleIcon} className="size-4" />
+              {presence.count}
+            </TooltipTrigger>
+            <TooltipContent side="bottom" sideOffset={8}>
+              {presenceLabel(presence)}
+            </TooltipContent>
+          </Tooltip>
           <img src={avatar} alt="" className="m-1 size-6 rounded-full" />
         </BarGroup>
       </Bar>
