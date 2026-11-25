@@ -62,21 +62,19 @@ function StickyNoteContent({
 }
 
 // All lengths are in percent of the edge of the note (pathLength = 100).
-const BAND_PART = 100 / 9
-const BULB_GAP = 100 / 18
+const BAND_PART = 100 / 8
+const BULB_GAP = 100 / 16
 
-// Three colours one after the other with no gap. Together they run around the note.
+// Red and blue one after the other with no gap. Together they run around the note.
 const LIGHTS_BAND = [
   { className: "stroke-lights-red", delay: "[animation-delay:0s]" },
-  { className: "stroke-lights-green", delay: "[animation-delay:-0.333s]" },
-  { className: "stroke-lights-gold", delay: "[animation-delay:-0.667s]" },
+  { className: "stroke-lights-blue", delay: "[animation-delay:-0.2s]" },
 ]
 
-// 18 bulbs on the wire: red, green, gold, red, ... Each colour twinkles at a different time.
+// 16 bulbs on the wire: red, blue, red, ... When the red bulbs are on, the blue bulbs are off.
 const LIGHTS_BULBS = [
   { className: "stroke-lights-red", delay: "[animation-delay:0s]", offset: 0 },
-  { className: "stroke-lights-green", delay: "[animation-delay:-0.4s]", offset: -BULB_GAP },
-  { className: "stroke-lights-gold", delay: "[animation-delay:-0.8s]", offset: -2 * BULB_GAP },
+  { className: "stroke-lights-blue", delay: "[animation-delay:-0.25s]", offset: -BULB_GAP },
 ]
 
 /** One rounded rectangle on the edge of the note. The parts of the lights are made of these. */
@@ -85,7 +83,7 @@ function LightsEdge(props: React.ComponentProps<"rect">) {
 }
 
 /**
- * Christmas lights around the note: a wire, a colour band that runs, and bulbs that twinkle.
+ * Police lights around the note: a dark wire, a red and blue band that runs, and bulbs that flash.
  * The note shows them when a person selects it or edits it.
  */
 function StickyNoteLights({ className, ...props }: React.ComponentProps<"svg">) {
@@ -95,7 +93,7 @@ function StickyNoteLights({ className, ...props }: React.ComponentProps<"svg">) 
       aria-hidden="true"
       className={cn(
         "pointer-events-none absolute inset-0 size-full overflow-visible",
-        "drop-shadow-[0_0_5px_var(--color-lights-gold)]",
+        "drop-shadow-[0_0_6px_var(--color-lights-blue)]",
         className,
       )}
       {...props}
@@ -105,7 +103,7 @@ function StickyNoteLights({ className, ...props }: React.ComponentProps<"svg">) 
         <LightsEdge
           key={part.className}
           strokeWidth={4}
-          strokeDasharray={`${BAND_PART} ${2 * BAND_PART}`}
+          strokeDasharray={`${BAND_PART} ${BAND_PART}`}
           className={cn("animate-lights-run motion-reduce:animate-none", part.className, part.delay)}
         />
       ))}
@@ -115,9 +113,9 @@ function StickyNoteLights({ className, ...props }: React.ComponentProps<"svg">) 
           data-slot="sticky-note-lights-bulbs"
           strokeWidth={14}
           strokeLinecap="round"
-          strokeDasharray={`0 ${3 * BULB_GAP}`}
+          strokeDasharray={`0 ${2 * BULB_GAP}`}
           strokeDashoffset={bulb.offset}
-          className={cn("animate-lights-twinkle motion-reduce:animate-none", bulb.className, bulb.delay)}
+          className={cn("animate-lights-flash motion-reduce:animate-none", bulb.className, bulb.delay)}
         />
       ))}
     </svg>
