@@ -187,6 +187,41 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  /* Whiteboard tokens, dark theme */
+  --selection: #f3f3f6;
+  --edge: #4a4a5c;
+  --edge-dashed: #5f5f75;
+  --grid-dot: rgb(236 236 241 / 0.14);
+  --note-yellow: #39351f;
+  --note-yellow-foreground: #e3dcae;
+  --note-yellow-border: #4d472b;
+  --note-yellow-hover: #8a7f4a;
+  --note-yellow-edit: #b89b7f;
+  --note-blue: #1e3439;
+  --note-blue-foreground: #b4d6df;
+  --note-blue-border: #2c454d;
+  --note-blue-hover: #4f7b9e;
+  --note-blue-edit: #6e9fd0;
+  --note-purple: #32263e;
+  --note-purple-foreground: #d5c2e5;
+  --note-purple-border: #45355a;
+  --note-purple-hover: #7f68a0;
+  --note-purple-edit: #a57fd0;
+  --note-red: #3c2724;
+  --note-red-foreground: #e7c4bd;
+  --note-red-border: #553632;
+  --note-red-hover: #a06a60;
+  --note-red-edit: #d9735c;
+  --tint-blue: #233249;
+  --tint-blue-foreground: #a9c3e8;
+  --tint-green: #22381f;
+  --tint-green-foreground: #a8d79a;
+  --reaction-green: #1f4a2e;
+  --reaction-green-border: #4cc076;
+  --reaction-yellow: #5a4a14;
+  --reaction-yellow-border: #eaa845;
+  --reaction-red: #5a2626;
+  --reaction-red-border: #e07a7a;
 }
 
 @layer base {

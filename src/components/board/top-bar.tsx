@@ -4,13 +4,16 @@ import {
   Cursor02Icon,
   DashboardSquare01Icon,
   FullScreenIcon,
+  Moon02Icon,
   PencilEdit02Icon,
   PlusSignIcon,
+  Sun02Icon,
 } from "@hugeicons/core-free-icons"
 import { SELECT_TOOL, useBoardStore } from "@/canvas/store"
 import avatar from "@/assets/avatar-me.png"
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
@@ -37,6 +40,38 @@ const pinnedDefinitions = PINNED_TOOLS.flatMap((type) =>
 )
 const moreDefinitions = nodeDefinitions.filter((definition) => !PINNED_TOOLS.includes(definition.type))
 
+/** The theme is saved in this browser only. It is not board data. */
+const THEME_KEY = "whiteboard-theme"
+
+function readDarkTheme() {
+  try {
+    return localStorage.getItem(THEME_KEY) === "dark"
+  } catch {
+    return false
+  }
+}
+
+function applyDarkTheme(dark: boolean) {
+  document.documentElement.classList.toggle("dark", dark)
+}
+
+// Set the theme before the first paint, so the board does not flash white.
+applyDarkTheme(readDarkTheme())
+
+function useDarkTheme() {
+  const [dark, setDark] = useState(readDarkTheme)
+  const change = (next: boolean) => {
+    setDark(next)
+    applyDarkTheme(next)
+    try {
+      localStorage.setItem(THEME_KEY, next ? "dark" : "light")
+    } catch {
+      // Private mode can block localStorage. The theme still changes for this visit.
+    }
+  }
+  return [dark, change] as const
+}
+
 /**
  * The bar at the top left: board title, tools, and the avatar.
  * The tools come from the node registry. A new node shows in the "More nodes" menu.
@@ -48,6 +83,7 @@ function TopBar() {
   const setTitle = useBoardStore((state) => state.setTitle)
   const zoomToFit = useBoardStore((state) => state.zoomToFit)
   const [dialog, setDialog] = useState<"rename" | null>(null)
+  const [dark, setDark] = useDarkTheme()
 
   return (
     <>
@@ -66,6 +102,9 @@ function TopBar() {
                 <Icon icon={FullScreenIcon} /> Zoom to fit
                 <DropdownMenuShortcut>⌘0</DropdownMenuShortcut>
               </DropdownMenuItem>
+              <DropdownMenuCheckboxItem checked={dark} onCheckedChange={setDark}>
+                <Icon icon={Moon02Icon} /> Dark theme
+              </DropdownMenuCheckboxItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem render={<a href="/nodes" />}>
                 <Icon icon={DashboardSquare01Icon} /> Node gallery
@@ -133,6 +172,12 @@ function TopBar() {
         <BarSeparator />
 
         <BarGroup className="p-2">
+          <BarButton
+            label={dark ? "Switch to light theme" : "Switch to dark theme"}
+            onClick={() => setDark(!dark)}
+          >
+            <Icon icon={dark ? Sun02Icon : Moon02Icon} />
+          </BarButton>
           <img src={avatar} alt="" className="m-1 size-6 rounded-full" />
         </BarGroup>
       </Bar>

@@ -17,14 +17,18 @@ export function CanvasLayer() {
     if (!canvas || !context) return
 
     // Colours come from the theme tokens in `src/index.css`.
-    const styles = getComputedStyle(document.documentElement)
-    const token = (name: string) => styles.getPropertyValue(name).trim()
-    const colors = {
-      dot: token("--grid-dot"),
-      edge: token("--edge"),
-      dashed: token("--edge-dashed"),
-      selected: token("--selection"),
+    // Read them again when the theme changes (the `dark` class on <html>).
+    const readColors = () => {
+      const styles = getComputedStyle(document.documentElement)
+      const token = (name: string) => styles.getPropertyValue(name).trim()
+      return {
+        dot: token("--grid-dot"),
+        edge: token("--edge"),
+        dashed: token("--edge-dashed"),
+        selected: token("--selection"),
+      }
     }
+    let colors = readColors()
 
     let frame = 0
 
@@ -90,9 +94,15 @@ export function CanvasLayer() {
     }
     const unsubscribe = useBoardStore.subscribe(schedule)
     window.addEventListener("resize", schedule)
+    const themeObserver = new MutationObserver(() => {
+      colors = readColors()
+      schedule()
+    })
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] })
     schedule()
 
     return () => {
+      themeObserver.disconnect()
       unsubscribe()
       window.removeEventListener("resize", schedule)
       cancelAnimationFrame(frame)
