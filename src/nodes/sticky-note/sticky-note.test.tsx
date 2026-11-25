@@ -8,6 +8,18 @@ describe("StickyNote", () => {
     expect(screen.getByText("Hello")).toHaveClass("bg-note-blue")
   })
 
+  it("tilts and shows the next colour on hover", () => {
+    const hover = "group-[:hover:not([data-selected])]/node"
+    const nextColour = { yellow: "blue", blue: "purple", purple: "red", red: "yellow" } as const
+
+    for (const [color, next] of Object.entries(nextColour)) {
+      const { unmount } = render(<StickyNote color={color as keyof typeof nextColour}>Note</StickyNote>)
+      const note = screen.getByText("Note")
+      expect(note).toHaveClass(`bg-note-${color}`, `${hover}:bg-note-${next}`, `${hover}:rotate-3`)
+      unmount()
+    }
+  })
+
   it("shows the saved text", () => {
     render(
       <StickyNoteNode

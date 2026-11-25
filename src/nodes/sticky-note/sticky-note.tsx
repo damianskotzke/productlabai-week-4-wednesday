@@ -10,18 +10,23 @@ export type StickyNoteData = { text: string; color: StickyNoteColor }
 const stickyNoteVariants = cva(
   [
     "flex size-full items-center justify-center rounded-[15px] border-[1.5px] px-3 pt-3 pb-6 shadow-note",
-    "bg-linear-165 from-transparent from-40% to-black/2 transition-colors",
+    "bg-linear-165 from-transparent from-40% to-black/2",
+    "transition-[color,background-color,border-color,rotate] duration-200 ease-out motion-reduce:transition-none",
+    // On hover the note tilts a little. Not when it is selected or in edit mode.
+    "group-[:hover:not([data-selected])]/node:rotate-3",
     "group-data-selected/node:border-selection",
   ],
   {
     variants: {
+      // On hover the note shows the next colour: yellow → blue → purple → red → yellow.
+      // Only the look changes. The saved colour stays the same.
       color: {
         yellow:
-          "border-note-yellow-border bg-note-yellow text-note-yellow-foreground group-[:hover:not([data-selected])]/node:border-note-yellow-hover group-data-editing/node:border-note-yellow-edit!",
-        blue: "border-note-blue-border bg-note-blue text-note-blue-foreground group-[:hover:not([data-selected])]/node:border-note-blue-hover group-data-editing/node:border-note-blue-edit!",
+          "border-note-yellow-border bg-note-yellow text-note-yellow-foreground group-[:hover:not([data-selected])]/node:border-note-blue-hover group-[:hover:not([data-selected])]/node:bg-note-blue group-[:hover:not([data-selected])]/node:text-note-blue-foreground group-data-editing/node:border-note-yellow-edit!",
+        blue: "border-note-blue-border bg-note-blue text-note-blue-foreground group-[:hover:not([data-selected])]/node:border-note-purple-hover group-[:hover:not([data-selected])]/node:bg-note-purple group-[:hover:not([data-selected])]/node:text-note-purple-foreground group-data-editing/node:border-note-blue-edit!",
         purple:
-          "border-note-purple-border bg-note-purple text-note-purple-foreground group-[:hover:not([data-selected])]/node:border-note-purple-hover group-data-editing/node:border-note-purple-edit!",
-        red: "border-note-red-border bg-note-red text-note-red-foreground group-[:hover:not([data-selected])]/node:border-note-red-hover group-data-editing/node:border-note-red-edit!",
+          "border-note-purple-border bg-note-purple text-note-purple-foreground group-[:hover:not([data-selected])]/node:border-note-red-hover group-[:hover:not([data-selected])]/node:bg-note-red group-[:hover:not([data-selected])]/node:text-note-red-foreground group-data-editing/node:border-note-purple-edit!",
+        red: "border-note-red-border bg-note-red text-note-red-foreground group-[:hover:not([data-selected])]/node:border-note-yellow-hover group-[:hover:not([data-selected])]/node:bg-note-yellow group-[:hover:not([data-selected])]/node:text-note-yellow-foreground group-data-editing/node:border-note-red-edit!",
       },
     },
     defaultVariants: { color: "yellow" },
