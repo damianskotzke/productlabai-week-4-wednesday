@@ -28,6 +28,7 @@ import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { getNodeDefinition, nodeDefinitions } from "@/nodes/registry"
 import { Bar, BarButton, BarGroup, BarSeparator } from "./bar"
+import { showDogConfetti } from "./dog-confetti"
 import { REACTIONS, ReactionBadge, randomEdgePlacement } from "./node-decorations"
 
 const BAR_HEIGHT = 42
@@ -69,10 +70,12 @@ function NodeContextBar({ id }: { id: string }) {
   const above = top.y - BAR_HEIGHT - GAP
   const y = above < 64 ? bottom.y + GAP : above
 
-  const addReaction = (kind: ReactionKind) =>
+  const addReaction = (kind: ReactionKind) => {
     updateNodeData(id, {
       reactions: [...reactions, { kind, ...randomEdgePlacement(["left", "right", "top", "bottom"]) }],
     })
+    if (kind === "dog") showDogConfetti()
+  }
   const addTag = (text: string) =>
     updateNodeData(id, { tags: [...tags, { text, ...randomEdgePlacement(["top", "bottom"]) }] })
 
