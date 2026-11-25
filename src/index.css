@@ -101,6 +101,10 @@
   --color-note-orange-border: var(--note-orange-border);
   --color-note-orange-hover: var(--note-orange-hover);
   --color-note-orange-edit: var(--note-orange-edit);
+  /* Police lights around a selected sticky note. */
+  --color-lights-red: var(--lights-red);
+  --color-lights-blue: var(--lights-blue);
+  --color-lights-wire: var(--lights-wire);
 }
 
 :root {
@@ -192,6 +196,9 @@
   --note-orange-border: #eee2d2;
   --note-orange-hover: #d6b597;
   --note-orange-edit: #c27a34;
+  --lights-red: #ff1f3d;
+  --lights-blue: #1f5bff;
+  --lights-wire: #10131c;
 }
 
 .dark {
@@ -285,4 +292,24 @@ body,
 body {
   overflow: hidden;
   overscroll-behavior: none;
+}
+
+/* Police lights on a sticky note: the red and blue band runs, the bulbs flash in turn. */
+@theme {
+  --animate-lights-run: lights-run 1.6s linear infinite;
+  --animate-lights-flash: lights-flash 0.5s steps(1, end) infinite;
+
+  @keyframes lights-run {
+    to {
+      stroke-dashoffset: -100;
+    }
+  }
+  @keyframes lights-flash {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.12;
+    }
+  }
 }
