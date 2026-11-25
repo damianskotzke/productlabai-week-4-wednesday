@@ -76,6 +76,7 @@ function StickyNoteNode({ data, editing, updateData, stopEditing }: NodeProps<St
         value={data.text}
         size={sizeForText(data.text)}
         editing={editing}
+        mentions
         placeholder="Write a note"
         onChange={(text) => updateData({ text })}
         onDone={stopEditing}
