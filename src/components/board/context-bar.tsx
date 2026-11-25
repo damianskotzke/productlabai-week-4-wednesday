@@ -25,6 +25,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
+import { getMyId } from "@/lib/identity"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { getNodeDefinition, nodeDefinitions } from "@/nodes/registry"
 import { Bar, BarButton, BarGroup, BarSeparator } from "./bar"
@@ -69,9 +70,14 @@ function NodeContextBar({ id }: { id: string }) {
   const above = top.y - BAR_HEIGHT - GAP
   const y = above < 64 ? bottom.y + GAP : above
 
-  const addReaction = (kind: ReactionKind) =>
+  // One reaction of each kind for each person. A second click takes it back.
+  const me = getMyId()
+  const isMine = (reaction: Reaction, kind: ReactionKind) => reaction.kind === kind && reaction.by === me
+  const toggleReaction = (kind: ReactionKind) =>
     updateNodeData(id, {
-      reactions: [...reactions, { kind, ...randomEdgePlacement(["left", "right", "top", "bottom"]) }],
+      reactions: reactions.some((reaction) => isMine(reaction, kind))
+        ? reactions.filter((reaction) => !isMine(reaction, kind))
+        : [...reactions, { kind, by: me, ...randomEdgePlacement(["left", "right", "top", "bottom"]) }],
     })
   const addTag = (text: string) =>
     updateNodeData(id, { tags: [...tags, { text, ...randomEdgePlacement(["top", "bottom"]) }] })
@@ -174,18 +180,23 @@ function NodeContextBar({ id }: { id: string }) {
             data-board-ui
             side="top"
             sideOffset={12}
-            className="flex w-auto min-w-0 gap-1 p-1.5"
+            className="grid w-auto min-w-0 grid-cols-4 gap-1 p-1.5"
           >
-            {(Object.keys(REACTIONS) as ReactionKind[]).map((kind) => (
-              <DropdownMenuItem
-                key={kind}
-                aria-label={REACTIONS[kind].label}
-                className="p-1"
-                onClick={() => addReaction(kind)}
-              >
-                <ReactionBadge kind={kind} />
-              </DropdownMenuItem>
-            ))}
+            {(Object.keys(REACTIONS) as ReactionKind[]).map((kind) => {
+              const given = reactions.some((reaction) => isMine(reaction, kind))
+              return (
+                <DropdownMenuItem
+                  key={kind}
+                  aria-label={given ? `Remove ${REACTIONS[kind].label}` : REACTIONS[kind].label}
+                  aria-pressed={given}
+                  closeOnClick={false}
+                  className="justify-center rounded-full p-1 aria-pressed:bg-muted aria-pressed:ring-2 aria-pressed:ring-selection"
+                  onClick={() => toggleReaction(kind)}
+                >
+                  <ReactionBadge kind={kind} />
+                </DropdownMenuItem>
+              )
+            })}
           </DropdownMenuContent>
         </DropdownMenu>
 

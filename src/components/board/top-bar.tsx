@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { toast } from "sonner"
 import {
   ArrowDown01Icon,
   Cursor02Icon,
@@ -9,6 +10,7 @@ import {
 } from "@hugeicons/core-free-icons"
 import { SELECT_TOOL, useBoardStore } from "@/canvas/store"
 import avatar from "@/assets/avatar-me.png"
+import { githubAvatarUrl, setGithubUser, useGithubUser } from "@/lib/identity"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -47,7 +49,8 @@ function TopBar() {
   const setTool = useBoardStore((state) => state.setTool)
   const setTitle = useBoardStore((state) => state.setTitle)
   const zoomToFit = useBoardStore((state) => state.zoomToFit)
-  const [dialog, setDialog] = useState<"rename" | null>(null)
+  const githubUser = useGithubUser()
+  const [dialog, setDialog] = useState<"rename" | "name" | null>(null)
 
   return (
     <>
@@ -133,7 +136,19 @@ function TopBar() {
         <BarSeparator />
 
         <BarGroup className="p-2">
-          <img src={avatar} alt="" className="m-1 size-6 rounded-full" />
+          <BarButton
+            label={githubUser ? `You are @${githubUser}. Click to change.` : "Set your GitHub name"}
+            onClick={() => setDialog("name")}
+          >
+            <img
+              src={githubUser ? githubAvatarUrl(githubUser) : avatar}
+              alt=""
+              className="size-6 rounded-full"
+              onError={(event) => {
+                event.currentTarget.src = avatar
+              }}
+            />
+          </BarButton>
         </BarGroup>
       </Bar>
 
@@ -144,6 +159,21 @@ function TopBar() {
         description="All people on the board see the new name."
         initialValue={title}
         onSubmit={setTitle}
+      />
+
+      <TextPromptDialog
+        open={dialog === "name"}
+        onOpenChange={(open) => setDialog(open ? "name" : null)}
+        title="Your GitHub name"
+        description="Your GitHub picture shows on the nodes that you add, so people see whose idea it is."
+        placeholder="octocat"
+        initialValue={githubUser ?? ""}
+        submitLabel="Save"
+        onSubmit={(value) => {
+          const saved = setGithubUser(value)
+          if (saved) toast.success(`Hi @${saved}! New nodes show your picture.`)
+          else toast.error("That is not a GitHub username.")
+        }}
       />
     </>
   )

@@ -8,13 +8,28 @@ export type View = { x: number; y: number; scale: number }
 
 export type Side = "top" | "right" | "bottom" | "left"
 
-export type ReactionKind = "thumbs-up" | "star" | "sad"
+export type ReactionKind =
+  | "thumbs-up"
+  | "star"
+  | "sad"
+  | "heart"
+  | "idea"
+  | "laugh"
+  | "clap"
+  | "question"
 
 /**
  * A reaction badge on a node.
  * `x` and `y` are fractions of the node box (0 = left/top, 1 = right/bottom).
  */
-export type Reaction = { kind: ReactionKind; x: number; y: number; rotation: number }
+export type Reaction = {
+  kind: ReactionKind
+  x: number
+  y: number
+  rotation: number
+  /** Who gave the reaction: a GitHub username or a random browser id. Old reactions have none. */
+  by?: string
+}
 
 /** A small label on a node. Position works the same as for a reaction. */
 export type Tag = { text: string; x: number; y: number; rotation: number }
@@ -36,7 +51,7 @@ export type BoardNode = {
   /** Stack order. A higher number is nearer to the front. */
   z: number
   data: Record<string, unknown> & SharedNodeData
-  /** Who made the node. The app has no names now, so new nodes have `null`. */
+  /** Who made the node: the GitHub username that the person set in the top bar, or `null`. */
   createdBy: string | null
 }
 

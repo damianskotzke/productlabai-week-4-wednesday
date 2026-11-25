@@ -3,7 +3,7 @@ import { SELECT_TOOL, useBoardStore } from "@/canvas/store"
 import type { Side } from "@/canvas/types"
 import { cn } from "@/lib/utils"
 import { getNodeDefinition } from "@/nodes/registry"
-import { NodeDecorations } from "./node-decorations"
+import { NodeAuthor, NodeDecorations } from "./node-decorations"
 
 /**
  * The frame around each node on the board.
@@ -70,6 +70,10 @@ const NodeShell = memo(function NodeShell({ id, rank }: { id: string; rank: numb
       )}
 
       <NodeDecorations reactions={node.data.reactions} tags={node.data.tags} />
+
+      {node.createdBy && node.createdBy !== "Seed" && (
+        <NodeAuthor user={node.createdBy} className="pointer-events-auto absolute -top-3 -left-3 z-10" />
+      )}
 
       {connectable &&
         !editing &&
