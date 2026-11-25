@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+  <defs><g id="body"><path d="M28 60H112V108C112 124 102 134 86 134H54C38 134 28 124 28 108Z"/><path d="M112 70H120C132 70 138 78 138 89C138 101 130 110 118 110H111"/><rect x="50" y="22" width="40" height="36" rx="18"/></g></defs>
+  <use href="#body" fill="#fff" stroke="#fff" stroke-width="18" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M56 48c-7-8 7-12 0-22M72 48c-7-8 7-12 0-22M88 48c-7-8 7-12 0-22" fill="none" stroke="#c9b8a8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M108 72H119C129 72 135 79 135 89C135 100 127 107 117 107H106" fill="#fff" stroke="#18a999" stroke-width="9"/><path d="M28 60H112V108C112 124 102 134 86 134H54C38 134 28 124 28 108Z" fill="#18a999"/><path d="M28 60H112V70H28Z" fill="#6b4226"/><circle cx="55" cy="96" r="4.5" fill="#2d2540"/><circle cx="85" cy="96" r="4.5" fill="#2d2540"/><path d="M62 103q8 9 16 0" fill="none" stroke="#2d2540" stroke-width="4" stroke-linecap="round"/><ellipse cx="46" cy="105" rx="5" ry="3.5" fill="#ff7d8f" opacity=".65"/><ellipse cx="94" cy="105" rx="5" ry="3.5" fill="#ff7d8f" opacity=".65"/>
+</svg>

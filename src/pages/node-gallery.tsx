@@ -1,9 +1,11 @@
+import { useState } from "react"
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons"
 import { Icon } from "@/components/icon"
 import { NodeErrorBoundary } from "@/components/board/node-shell"
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { nodeDefinitions } from "@/nodes/registry"
+import type { AnyNodeDefinition } from "@/nodes/define-node"
 
 /**
  * `/nodes`: each node type alone, with its default data.
@@ -25,46 +27,63 @@ function NodeGallery() {
 
         <ul className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {nodeDefinitions.map((definition) => (
-            <li
-              key={definition.type}
-              data-node-type={definition.type}
-              className="flex flex-col gap-4 rounded-xl border bg-background p-4"
-            >
-              <div className="flex items-start gap-3">
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-sm border bg-muted">
-                  <Icon icon={definition.icon} className="size-5" />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <h2 className="text-sm font-medium">
-                    {definition.label}{" "}
-                    <code className="font-normal text-muted-foreground">{definition.type}</code>
-                  </h2>
-                  <p className="text-sm text-muted-foreground">{definition.description}</p>
-                </div>
-                <span className="shrink-0 text-xs text-muted-foreground">{definition.author}</span>
-              </div>
-              <div className="flex min-h-64 items-center justify-center overflow-auto rounded-lg border border-dashed p-6">
-                {/* `group/node` is the same wrapper that the board shell gives. */}
-                <div className="group/node relative shrink-0" style={definition.defaultSize}>
-                  <NodeErrorBoundary type={definition.type}>
-                    <definition.component
-                      id={`gallery-${definition.type}`}
-                      data={definition.defaultData}
-                      width={definition.defaultSize.width}
-                      height={definition.defaultSize.height}
-                      selected={false}
-                      editing={false}
-                      updateData={() => {}}
-                      stopEditing={() => {}}
-                    />
-                  </NodeErrorBoundary>
-                </div>
-              </div>
-            </li>
+            <NodeGalleryCard key={definition.type} definition={definition} />
           ))}
         </ul>
       </div>
     </main>
+  )
+}
+
+/** One node type. The toggle shows the node in its selected look. */
+function NodeGalleryCard({ definition }: { definition: AnyNodeDefinition }) {
+  const [selected, setSelected] = useState(false)
+
+  return (
+    <li data-node-type={definition.type} className="flex flex-col gap-4 rounded-xl border bg-background p-4">
+      <div className="flex items-start gap-3">
+        <span className="flex size-8 shrink-0 items-center justify-center rounded-sm border bg-muted">
+          <Icon icon={definition.icon} className="size-5" />
+        </span>
+        <div className="min-w-0 flex-1">
+          <h2 className="text-sm font-medium">
+            {definition.label} <code className="font-normal text-muted-foreground">{definition.type}</code>
+          </h2>
+          <p className="text-sm text-muted-foreground">{definition.description}</p>
+        </div>
+        <span className="shrink-0 text-xs text-muted-foreground">{definition.author}</span>
+      </div>
+      <div className="flex min-h-64 items-center justify-center overflow-auto rounded-lg border border-dashed p-6">
+        {/* `group/node` and `data-selected` are the same as on the board shell. */}
+        <div
+          className="group/node relative shrink-0"
+          data-selected={selected || undefined}
+          style={definition.defaultSize}
+        >
+          <NodeErrorBoundary type={definition.type}>
+            <definition.component
+              id={`gallery-${definition.type}`}
+              data={definition.defaultData}
+              width={definition.defaultSize.width}
+              height={definition.defaultSize.height}
+              selected={selected}
+              editing={false}
+              updateData={() => {}}
+              stopEditing={() => {}}
+            />
+          </NodeErrorBoundary>
+        </div>
+      </div>
+      <Button
+        variant="outline"
+        size="sm"
+        className="self-start"
+        aria-pressed={selected}
+        onClick={() => setSelected((value) => !value)}
+      >
+        {selected ? "Show idle look" : "Show selected look"}
+      </Button>
+    </li>
   )
 }
 

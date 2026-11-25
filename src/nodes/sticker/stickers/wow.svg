@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+  <defs><g id="body"><path d="M80.0 14.0L92.9 31.7L113.0 22.8L115.4 44.6L137.2 47.0L128.3 67.1L146.0 80.0L128.3 92.9L137.2 113.0L115.4 115.4L113.0 137.2L92.9 128.3L80.0 146.0L67.1 128.3L47.0 137.2L44.6 115.4L22.8 113.0L31.7 92.9L14.0 80.0L31.7 67.1L22.8 47.0L44.6 44.6L47.0 22.8L67.1 31.7Z"/></g></defs>
+  <use href="#body" fill="#fff" stroke="#fff" stroke-width="18" stroke-linejoin="round" stroke-linecap="round"/>
+  <use href="#body" fill="#7b4dff" stroke="#7b4dff" stroke-width="4" stroke-linejoin="round"/><g transform="translate(80 80) scale(.84) translate(-81 -80)"><path d="M36 64L43 96L51 74L59 96L66 64" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="81" cy="80" rx="9.5" ry="15" fill="none" stroke="#ffd84d" stroke-width="8"/><path d="M96 64L103 96L111 74L119 96L126 64" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></g>
+</svg>

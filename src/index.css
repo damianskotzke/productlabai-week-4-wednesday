@@ -83,6 +83,9 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --color-golden-fur: var(--golden-fur);
+  --color-golden-ear: var(--golden-ear);
+  --color-golden-ink: var(--golden-ink);
   --color-tomato: var(--tomato);
   --color-tomato-foreground: var(--tomato-foreground);
   --color-tomato-leaf: var(--tomato-leaf);
@@ -156,6 +159,9 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --golden-fur: #f0c57a;
+  --golden-ear: #d49c4b;
+  --golden-ink: #3b2a20;
   /* Tomato timer node */
   --tomato: #d1432c;
   --tomato-foreground: #fff7f3;
