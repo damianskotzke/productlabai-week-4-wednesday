@@ -11,6 +11,7 @@ import { useBoardSync } from "@/lib/use-board-sync"
 import { cn } from "@/lib/utils"
 import { getNodeDefinition } from "@/nodes/registry"
 import { ContextBar } from "./context-bar"
+import { STICKER_DRAG_TYPE, STICKER_TOOL, StickerCursorPreview, useStickerChoice } from "./sticker-picker"
 import { TopBar } from "./top-bar"
 
 /** The full whiteboard page: canvas, nodes, bars. */
@@ -34,17 +35,40 @@ function Board() {
     return () => observer.disconnect()
   }, [])
 
-  // Drop an image file on the board to make an image node.
+  const pointFromEvent = (event: { clientX: number; clientY: number }) => {
+    const rect = ref.current!.getBoundingClientRect()
+    return toWorld(useBoardStore.getState().view, {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    })
+  }
+
+  // The sticker tool is active: the click puts the chosen sticker on the board.
+  // This runs before the board gestures, because they make a node without data.
+  const onPointerDownCapture = (event: React.PointerEvent) => {
+    const state = useBoardStore.getState()
+    if (state.tool !== STICKER_TOOL || event.button !== 0 || !ref.current) return
+    if ((event.target as Element).closest("[data-board-ui]")) return
+    event.stopPropagation()
+    state.addNode(STICKER_TOOL, pointFromEvent(event), { sticker: useStickerChoice.getState().sticker })
+  }
+
+  // Drop an image file on the board to make an image node,
+  // or drop a sticker from the sticker picker.
   const onDrop = async (event: React.DragEvent) => {
+    const sticker = event.dataTransfer.getData(STICKER_DRAG_TYPE)
+    if (sticker && ref.current) {
+      event.preventDefault()
+      useBoardStore.getState().addNode(STICKER_TOOL, pointFromEvent(event), { sticker })
+      return
+    }
     const file = Array.from(event.dataTransfer.files).find((entry) => entry.type.startsWith("image/"))
     if (!file || !getNodeDefinition("image") || !ref.current) return
     event.preventDefault()
-    const rect = ref.current.getBoundingClientRect()
-    const state = useBoardStore.getState()
-    const point = toWorld(state.view, { x: event.clientX - rect.left, y: event.clientY - rect.top })
+    const point = pointFromEvent(event)
     try {
       const uploaded = await uploadFile(file)
-      state.addNode("image", point, { src: uploaded.url, alt: uploaded.name })
+      useBoardStore.getState().addNode("image", point, { src: uploaded.url, alt: uploaded.name })
     } catch (error) {
       toast.error("Could not upload the image", {
         description: error instanceof Error ? error.message : undefined,
@@ -57,6 +81,7 @@ function Board() {
       ref={ref}
       data-slot="board"
       data-linking={linking || undefined}
+      onPointerDownCapture={onPointerDownCapture}
       onDragOver={(event) => event.preventDefault()}
       onDrop={onDrop}
       className={cn(
@@ -68,6 +93,7 @@ function Board() {
     >
       <CanvasLayer />
       <WorldLayer />
+      <StickerCursorPreview boardRef={ref} />
       <TopBar />
       <ContextBar />
     </div>
