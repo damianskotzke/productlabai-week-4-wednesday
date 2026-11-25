@@ -8,7 +8,7 @@ export type View = { x: number; y: number; scale: number }
 
 export type Side = "top" | "right" | "bottom" | "left"
 
-export type ReactionKind = "thumbs-up" | "star" | "sad"
+export type ReactionKind = "thumbs-up" | "star" | "sad" | "dog"
 
 /**
  * A reaction badge on a node.

@@ -15,10 +15,12 @@ const COOL_STICKER_TOOL = "cool-sticker"
 const COOL_STICKER_DRAG_TYPE = "application/x-board-cool-sticker"
 
 /** The sticker that the next click on the board puts down. */
-const useCoolStickerChoice = create<{ sticker: CoolStickerId; choose: (sticker: CoolStickerId) => void }>((set) => ({
-  sticker: COOL_STICKERS[0].id,
-  choose: (sticker) => set({ sticker }),
-}))
+const useCoolStickerChoice = create<{ sticker: CoolStickerId; choose: (sticker: CoolStickerId) => void }>(
+  (set) => ({
+    sticker: COOL_STICKERS[0].id,
+    choose: (sticker) => set({ sticker }),
+  }),
+)
 
 /**
  * The "Cool stickers" button in the top bar.
@@ -115,4 +117,10 @@ function CoolStickerCursorPreview({ boardRef }: { boardRef: React.RefObject<HTML
   )
 }
 
-export { COOL_STICKER_DRAG_TYPE, COOL_STICKER_TOOL, CoolStickerCursorPreview, CoolStickerPicker, useCoolStickerChoice }
+export {
+  COOL_STICKER_DRAG_TYPE,
+  COOL_STICKER_TOOL,
+  CoolStickerCursorPreview,
+  CoolStickerPicker,
+  useCoolStickerChoice,
+}

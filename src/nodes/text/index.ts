@@ -1,6 +1,6 @@
 import { TextIcon } from "@hugeicons/core-free-icons"
 import { defineNode } from "../define-node"
-import { TextNode, type TextData } from "./text"
+import { TextNode, TextToolbar, type TextData } from "./text"
 
 export default defineNode<TextData>({
   type: "text",
@@ -13,6 +13,7 @@ export default defineNode<TextData>({
   minSize: { width: 60, height: 34 },
   defaultData: { text: "" },
   component: TextNode,
+  toolbar: TextToolbar,
   connectable: false,
   editOnCreate: true,
 })
