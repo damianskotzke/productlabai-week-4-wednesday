@@ -4,7 +4,7 @@ import { EditableText } from "@/components/board/editable-text"
 import { cn } from "@/lib/utils"
 import type { NodeProps } from "../define-node"
 
-export type StickyNoteColor = "yellow" | "blue" | "purple" | "red"
+export type StickyNoteColor = "yellow" | "blue" | "purple" | "red" | "green" | "orange"
 export type StickyNoteData = { text: string; color: StickyNoteColor }
 
 const stickyNoteVariants = cva(
@@ -18,7 +18,7 @@ const stickyNoteVariants = cva(
   ],
   {
     variants: {
-      // On hover the note shows the next colour: yellow → blue → purple → red → yellow.
+      // On hover the note shows the next colour: yellow → blue → purple → red → green → orange → yellow.
       // Only the look changes. The saved colour stays the same.
       color: {
         yellow:
@@ -26,7 +26,11 @@ const stickyNoteVariants = cva(
         blue: "border-note-blue-border bg-note-blue text-note-blue-foreground group-[:hover:not([data-selected]):not([data-editing])]/node:border-note-purple-hover group-[:hover:not([data-selected]):not([data-editing])]/node:bg-note-purple group-[:hover:not([data-selected]):not([data-editing])]/node:text-note-purple-foreground group-data-editing/node:border-note-blue-edit!",
         purple:
           "border-note-purple-border bg-note-purple text-note-purple-foreground group-[:hover:not([data-selected]):not([data-editing])]/node:border-note-red-hover group-[:hover:not([data-selected]):not([data-editing])]/node:bg-note-red group-[:hover:not([data-selected]):not([data-editing])]/node:text-note-red-foreground group-data-editing/node:border-note-purple-edit!",
-        red: "border-note-red-border bg-note-red text-note-red-foreground group-[:hover:not([data-selected]):not([data-editing])]/node:border-note-yellow-hover group-[:hover:not([data-selected]):not([data-editing])]/node:bg-note-yellow group-[:hover:not([data-selected]):not([data-editing])]/node:text-note-yellow-foreground group-data-editing/node:border-note-red-edit!",
+        red: "border-note-red-border bg-note-red text-note-red-foreground group-[:hover:not([data-selected]):not([data-editing])]/node:border-note-green-hover group-[:hover:not([data-selected]):not([data-editing])]/node:bg-note-green group-[:hover:not([data-selected]):not([data-editing])]/node:text-note-green-foreground group-data-editing/node:border-note-red-edit!",
+        green:
+          "border-note-green-border bg-note-green text-note-green-foreground group-[:hover:not([data-selected]):not([data-editing])]/node:border-note-orange-hover group-[:hover:not([data-selected]):not([data-editing])]/node:bg-note-orange group-[:hover:not([data-selected]):not([data-editing])]/node:text-note-orange-foreground group-data-editing/node:border-note-green-edit!",
+        orange:
+          "border-note-orange-border bg-note-orange text-note-orange-foreground group-[:hover:not([data-selected]):not([data-editing])]/node:border-note-yellow-hover group-[:hover:not([data-selected]):not([data-editing])]/node:bg-note-yellow group-[:hover:not([data-selected]):not([data-editing])]/node:text-note-yellow-foreground group-data-editing/node:border-note-orange-edit!",
         // Not a colour in the picker. The note uses it when its text starts with "$".
         dollar: "border-note-dollar bg-note-dollar text-note-dollar-foreground",
       },
@@ -102,6 +106,8 @@ const COLORS: ColorOption<StickyNoteColor>[] = [
   { value: "blue", label: "Blue", className: "border-note-blue-hover bg-note-blue" },
   { value: "purple", label: "Purple", className: "border-note-purple-hover bg-note-purple" },
   { value: "red", label: "Red", className: "border-note-red-hover bg-note-red" },
+  { value: "green", label: "Green", className: "border-note-green-hover bg-note-green" },
+  { value: "orange", label: "Orange", className: "border-note-orange-hover bg-note-orange" },
 ]
 
 /** Extra controls in the context bar. */
