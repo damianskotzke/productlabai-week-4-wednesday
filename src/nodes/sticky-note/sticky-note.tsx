@@ -22,6 +22,8 @@ const stickyNoteVariants = cva(
         purple:
           "border-note-purple-border bg-note-purple text-note-purple-foreground group-[:hover:not([data-selected])]/node:border-note-purple-hover group-data-editing/node:border-note-purple-edit!",
         red: "border-note-red-border bg-note-red text-note-red-foreground group-[:hover:not([data-selected])]/node:border-note-red-hover group-data-editing/node:border-note-red-edit!",
+        // Not a colour in the picker. The note uses it when its text starts with "$".
+        dollar: "border-note-dollar bg-note-dollar text-note-dollar-foreground",
       },
     },
     defaultVariants: { color: "yellow" },
@@ -68,10 +70,15 @@ function sizeForText(text: string): "lg" | "md" | "sm" {
   return "sm"
 }
 
+/** A note whose text starts with "$" is pink with white text. */
+function colorForNote(data: StickyNoteData) {
+  return data.text?.startsWith("$") ? "dollar" : data.color
+}
+
 /** The component that the board draws. */
 function StickyNoteNode({ data, editing, updateData, stopEditing }: NodeProps<StickyNoteData>) {
   return (
-    <StickyNote color={data.color}>
+    <StickyNote color={colorForNote(data)}>
       <StickyNoteContent
         value={data.text}
         size={sizeForText(data.text)}

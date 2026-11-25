@@ -83,6 +83,8 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --color-note-dollar: var(--note-dollar);
+  --color-note-dollar-foreground: var(--note-dollar-foreground);
 }
 
 :root {
@@ -153,6 +155,9 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* Sticky note that starts with "$" */
+  --note-dollar: #e228bd;
+  --note-dollar-foreground: #ffffff;
 }
 
 .dark {
