@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+  <defs><g id="body"><path d="M42 26H118C130 26 138 34 138 46V92C138 104 130 112 118 112H82L54 138V112H42C30 112 22 104 22 92V46C22 34 30 26 42 26Z"/></g></defs>
+  <use href="#body" fill="#fff" stroke="#fff" stroke-width="18" stroke-linejoin="round" stroke-linecap="round"/>
+  <use href="#body" fill="#3aa6ff"/><path d="M64 56C64 46 71 41 80 41C90 41 97 47 97 56C97 67 81 67 81 79" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><circle cx="81" cy="96" r="6.5" fill="#fff"/>
+</svg>
