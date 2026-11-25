@@ -11,6 +11,7 @@ import { useBoardSync } from "@/lib/use-board-sync"
 import { cn } from "@/lib/utils"
 import { getNodeDefinition } from "@/nodes/registry"
 import { ContextBar } from "./context-bar"
+import { StampPalette } from "./stamp-palette"
 import { TopBar } from "./top-bar"
 
 /** The full whiteboard page: canvas, nodes, bars. */
@@ -69,6 +70,7 @@ function Board() {
       <CanvasLayer />
       <WorldLayer />
       <TopBar />
+      <StampPalette />
       <ContextBar />
     </div>
   )
