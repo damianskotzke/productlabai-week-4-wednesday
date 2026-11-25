@@ -6,7 +6,6 @@ import {
   FullScreenIcon,
   GridIcon,
   PencilEdit02Icon,
-  PlusSignIcon,
   UserMultipleIcon,
 } from "@hugeicons/core-free-icons"
 import { GRID_STYLES, useGridStyle, type GridStyle } from "@/canvas/grid-style"
@@ -15,9 +14,7 @@ import avatar from "@/assets/avatar-me.png"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
@@ -29,10 +26,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { nodeDefinitions } from "@/nodes/registry"
 import { Icon } from "@/components/icon"
-import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { presenceLabel, usePresence } from "@/lib/use-presence"
 import { Bar, BarButton, BarGroup, BarSeparator } from "./bar"
+import { NodeMenu } from "./node-menu"
 import { TextPromptDialog } from "./text-prompt-dialog"
 
 /**
@@ -127,36 +124,7 @@ function TopBar() {
             </BarButton>
           ))}
           {moreDefinitions.length > 0 && (
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                render={
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    aria-label="More nodes"
-                    title="More nodes"
-                    data-active={moreDefinitions.some((definition) => definition.type === tool) || undefined}
-                    className="rounded-sm text-foreground data-active:border-border data-active:bg-muted data-active:shadow-flat [&_svg:not([class*='size-'])]:size-5"
-                  />
-                }
-              >
-                <Icon icon={PlusSignIcon} />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent data-board-ui className="max-h-96 w-64" sideOffset={12}>
-                <DropdownMenuGroup>
-                  <DropdownMenuLabel>More nodes ({moreDefinitions.length})</DropdownMenuLabel>
-                  {moreDefinitions.map((definition) => (
-                    <DropdownMenuItem key={definition.type} onClick={() => setTool(definition.type)}>
-                      <Icon icon={definition.icon} />
-                      <span className="truncate">{definition.label}</span>
-                      <span className="ml-auto truncate text-xs text-muted-foreground">
-                        {definition.author}
-                      </span>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <NodeMenu definitions={moreDefinitions} activeType={tool} onPick={setTool} />
           )}
         </BarGroup>
 
