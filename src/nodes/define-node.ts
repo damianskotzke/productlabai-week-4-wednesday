@@ -48,6 +48,8 @@ export type NodeDefinition<Data> = {
   resizable?: boolean
   /** Set to true to start the edit state immediately after creation. */
   editOnCreate?: boolean
+  /** Set to false when the node has no edit state. A double click then does nothing. Default: true. */
+  editable?: boolean
 }
 
 // The registry holds node types with different data shapes in one list.

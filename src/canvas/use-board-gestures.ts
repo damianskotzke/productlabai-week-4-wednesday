@@ -212,6 +212,9 @@ export function useBoardGestures(ref: RefObject<HTMLElement | null>) {
       if (target.closest("[data-board-ui], [data-handle], [data-resize]")) return
       const id = target.closest<HTMLElement>("[data-node-id]")?.dataset.nodeId
       if (id && state.editingId !== id) {
+        const definition = nodeDefinitions.find((entry) => entry.type === state.nodes[id]?.type)
+        // A node with no edit state (for example an image) ignores the double click.
+        if (definition?.editable === false) return
         state.select({ kind: "node", id })
         state.setEditing(id)
       }

@@ -14,4 +14,5 @@ export default defineNode<ImageData>({
   defaultData: { src: "", alt: "", fit: "cover" },
   component: ImageNode,
   toolbar: ImageToolbar,
+  editable: false,
 })
